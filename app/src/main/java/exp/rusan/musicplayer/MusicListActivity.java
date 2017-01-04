@@ -3,6 +3,9 @@ package exp.rusan.musicplayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +18,10 @@ import android.view.MenuItem;
 
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    final private String TAG = this.getLocalClassName();
+
+    private SongsAdapter songsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,14 @@ public class MusicListActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        // Song List
+        RecyclerView rvSongs = (RecyclerView) findViewById(R.id.rv_songs);
+        rvSongs.setHasFixedSize(true);
+        rvSongs.setLayoutManager(new LinearLayoutManager(this));
+
+        songsAdapter = new SongsAdapter(songClickListener);
+        rvSongs.setAdapter(songsAdapter);
     }
 
     @Override
@@ -98,4 +113,14 @@ public class MusicListActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    SongsAdapter.SongClickListener songClickListener = new SongsAdapter.SongClickListener() {
+        @Override
+        public void onSongClick(int position) {
+            SongBean song = songsAdapter.getSong(position);
+            Log.d(TAG, song.getTitle());
+
+        }
+    };
+
 }

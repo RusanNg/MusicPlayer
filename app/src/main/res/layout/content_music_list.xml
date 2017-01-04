@@ -13,4 +13,12 @@
     tools:context="exp.rusan.musicplayer.MusicListActivity"
     tools:showIn="@layout/app_bar_music_list">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_songs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        ></android.support.v7.widget.RecyclerView>
+
+
 </RelativeLayout>
