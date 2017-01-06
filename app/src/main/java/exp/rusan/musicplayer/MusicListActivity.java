@@ -19,7 +19,7 @@ import android.view.MenuItem;
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    final private String TAG = this.getLocalClassName();
+    private final String TAG = this.getClass().getSimpleName();
 
     private SongsAdapter songsAdapter;
 
@@ -52,6 +52,8 @@ public class MusicListActivity extends AppCompatActivity
         RecyclerView rvSongs = (RecyclerView) findViewById(R.id.rv_songs);
         rvSongs.setHasFixedSize(true);
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
+        rvSongs.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
+
 
         songsAdapter = new SongsAdapter(songClickListener);
         rvSongs.setAdapter(songsAdapter);
