@@ -1,20 +1,25 @@
 package exp.rusan.musicplayer;
 
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -27,6 +32,24 @@ public class MusicListActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
+
+        // TODO: 2017/1/6 权限管理 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+
+            int hasReadExternalStorage = checkSelfPermission("android.permission" +
+                    ".READ_EXTERNAL_STORAGE");
+            List<String> permissions = new ArrayList<>();
+            if (hasReadExternalStorage != PackageManager.PERMISSION_GRANTED) {
+                permissions.add("android.permission.READ_EXTERNAL_STORAGE");
+            } else {
+
+            }
+        }
+
+
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -54,8 +77,8 @@ public class MusicListActivity extends AppCompatActivity
         rvSongs.setLayoutManager(new LinearLayoutManager(this));
         rvSongs.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
-
         songsAdapter = new SongsAdapter(songClickListener);
+        songsAdapter.setSongSet(MusicLoader.getInstance(getContentResolver()).getSongList());
         rvSongs.setAdapter(songsAdapter);
     }
 
