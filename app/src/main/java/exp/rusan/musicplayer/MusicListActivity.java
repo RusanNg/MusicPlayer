@@ -1,7 +1,5 @@
 package exp.rusan.musicplayer;
 
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,34 +16,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private final String TAG = this.getClass().getSimpleName();
+    public static final int whatMusicContentObserver = 1;
 
     private SongsAdapter songsAdapter;
+
+    private MusicContentObserver musicContentObserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
 
-        // TODO: 2017/1/6 权限管理 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-
-            int hasReadExternalStorage = checkSelfPermission("android.permission" +
-                    ".READ_EXTERNAL_STORAGE");
-            List<String> permissions = new ArrayList<>();
-            if (hasReadExternalStorage != PackageManager.PERMISSION_GRANTED) {
-                permissions.add("android.permission.READ_EXTERNAL_STORAGE");
-            } else {
-
-            }
-        }
+//        // TODO: 2017/1/6 权限管理
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//
+//
+//            int hasReadExternalStorage = checkSelfPermission("android.permission" +
+//                    ".READ_EXTERNAL_STORAGE");
+//            List<String> permissions = new ArrayList<>();
+//            if (hasReadExternalStorage != PackageManager.PERMISSION_GRANTED) {
+//                permissions.add("android.permission.READ_EXTERNAL_STORAGE");
+//            } else {
+//
+//            }
+//        }
 
 
 
@@ -80,6 +78,10 @@ public class MusicListActivity extends AppCompatActivity
         songsAdapter = new SongsAdapter(songClickListener);
         songsAdapter.setSongSet(MusicLoader.getInstance(getContentResolver()).getSongList());
         rvSongs.setAdapter(songsAdapter);
+
+        // TODO: 2017/1/9  
+        musicContentObserver = new MusicContentObserver(getBaseContext(), )
+
     }
 
     @Override
