@@ -1,6 +1,10 @@
 package exp.rusan.musicplayer;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.provider.MediaStore.Audio.Media;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -15,6 +19,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MusicListActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -76,12 +83,39 @@ public class MusicListActivity extends AppCompatActivity
         rvSongs.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL_LIST));
 
         songsAdapter = new SongsAdapter(songClickListener);
-        songsAdapter.setSongSet(MusicLoader.getInstance(getContentResolver()).getSongList());
+        songsAdapter.setSongList(MusicLoader.getInstance(getContentResolver()).getSongList());
         rvSongs.setAdapter(songsAdapter);
 
-        // TODO: 2017/1/9  
-        musicContentObserver = new MusicContentObserver(getBaseContext(), )
+        musicContentObserver = new MusicContentObserver(this, handler);
 
+        registerContentObservers();
+
+    }
+
+    private Handler handler = new Handler() {
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            Log.i(TAG, "-----handler-----");
+
+            switch (msg.what) {
+                case MusicListActivity.whatMusicContentObserver:
+                    List<SongBean> songList = (ArrayList<SongBean>) msg.obj;
+                    Log.i(TAG, "Song list from handler is " + songList.size());
+                    songsAdapter.setSongList(songList);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    };
+
+    private void registerContentObservers() {
+        Uri musicUri = Media.EXTERNAL_CONTENT_URI;
+        getContentResolver().registerContentObserver(musicUri, false, musicContentObserver);
     }
 
     @Override

@@ -23,10 +23,10 @@ public class SongBean {
     private String title;
     private String artist;
     private String album;
-    private Long duration;
+    private Integer duration;
 
-    @Generated(hash = 774069898)
-    public SongBean(String title, String artist, String album, Long duration) {
+    @Generated(hash = 997709628)
+    public SongBean(String title, String artist, String album, Integer duration) {
         this.title = title;
         this.artist = artist;
         this.album = album;
@@ -61,11 +61,11 @@ public class SongBean {
         this.album = album;
     }
 
-    public Long getDuration() {
+    public Integer getDuration() {
         return duration;
     }
 
-    public void setDuration(Long duration) {
+    public void setDuration(Integer duration) {
         this.duration = duration;
     }
 }

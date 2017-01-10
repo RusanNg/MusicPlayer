@@ -26,7 +26,7 @@ import java.util.List;
 public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHolder> {
 
     private SongClickListener clickListener;
-    private List<SongBean> songSet;
+    private List<SongBean> songList;
 
     public interface SongClickListener {
         void onSongClick(int position);
@@ -34,12 +34,18 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     public SongsAdapter(SongClickListener clickListener) {
         this.clickListener = clickListener;
-        this.songSet = new ArrayList<SongBean>();
+        this.songList = new ArrayList<>();
     }
 
     public SongBean getSong(int position) {
-        return songSet.get(position);
+        return songList.get(position);
     }
+
+    public void setSongList(List<SongBean> pSongList) {
+        songList = pSongList;
+        notifyDataSetChanged();
+    }
+
 
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,7 +56,7 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
-        SongBean song = songSet.get(position);
+        SongBean song = songList.get(position);
         holder.tvTitle.setText(song.getTitle());
         holder.tvSubTitle.setText(song.getArtist() + " - " + song.getAlbum());
         holder.tvDuration.setText(song.getDuration().toString());
@@ -58,10 +64,10 @@ public class SongsAdapter extends RecyclerView.Adapter<SongsAdapter.SongViewHold
 
     @Override
     public int getItemCount() {
-        return songSet.size();
+        return songList.size();
     }
 
-    
+
     static class SongViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView ivIndicator;
