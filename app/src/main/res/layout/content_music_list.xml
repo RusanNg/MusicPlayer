@@ -6,16 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="exp.rusan.musicplayer.MusicListActivity"
-    tools:showIn="@layout/app_bar_music_list">
+    tools:context="exp.rusan.musicplayer.TrackListActivity"
+    tools:showIn="@layout/app_bar_music_list"
+    >
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_songs"
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tl_library"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabMode="fixed"
+        app:tabGravity="fill"
+        >
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_library"
+        android:layout_below="@id/tl_library"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:background="#1d2027"
-        ></android.support.v7.widget.RecyclerView>
+        ></android.support.v4.view.ViewPager>
+
 
 
 </RelativeLayout>

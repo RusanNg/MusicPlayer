@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TrackStore;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
@@ -17,24 +17,34 @@ import org.greenrobot.greendao.annotation.Id;
  */
 
 @Entity
-public class SongBean {
+public class Track {
 
     @Id
+    private Integer id;
     private String title;
     private String artist;
     private String album;
     private Integer duration;
 
-    @Generated(hash = 997709628)
-    public SongBean(String title, String artist, String album, Integer duration) {
+    @Generated(hash = 1686194749)
+    public Track(Integer id, String title, String artist, String album, Integer duration) {
+        this.id = id;
         this.title = title;
         this.artist = artist;
         this.album = album;
         this.duration = duration;
     }
 
-    @Generated(hash = 680878972)
-    public SongBean() {
+    @Generated(hash = 1672506944)
+    public Track() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getTitle() {

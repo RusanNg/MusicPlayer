@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TrackStore;
 
 import android.content.Context;
 import android.database.ContentObserver;
@@ -9,6 +9,8 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import exp.rusan.musicplayer.PersistenceVariable;
 
 /**
  * Description: 监测本地本地音乐库变化
@@ -26,7 +28,7 @@ public class TrackContentObserver extends ContentObserver{
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private List<TrackBean> trackList = new ArrayList<>();
+    private List<Track> tracks = new ArrayList<>();
 
     private Context context;
     private Handler handler;
@@ -51,10 +53,10 @@ public class TrackContentObserver extends ContentObserver{
 
         Uri musicContentUri = Media.EXTERNAL_CONTENT_URI;
 
-        trackList = TrackLoader.getInstance(context.getContentResolver()).getReloadTrackList();
+        tracks = TracksLoader.getInstance(context.getContentResolver()).getReloadTracks();
 
-//        Log.i(TAG, "song list num :　" + trackList.size());
-        handler.obtainMessage(LibraryPageFragment.WHAT_TRACK_CONTENT_OBSERVER, trackList)
+//        Log.i(TAG, "song list num :　" + tracks.size());
+        handler.obtainMessage(PersistenceVariable.HANDLER_WHAT_TRACK_CONTENT_OBSERVER, tracks)
                 .sendToTarget();
 
     }

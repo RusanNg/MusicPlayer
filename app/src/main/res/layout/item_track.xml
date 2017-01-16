@@ -2,7 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="72dp"
+    android:foreground="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -12,17 +17,15 @@
         android:layout_height="wrap_content" />
 
     <ImageButton
-        android:id="@+id/ib_more"
+        android:id="@+id/ib_options"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="#00000000"
         android:gravity="center"
-        android:src="@drawable/ic_more_horiz_black_24dp"
-
-        />
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_more_horiz_black_24dp" />
 
     <TextView
         android:id="@+id/tv_duration"
@@ -30,11 +33,11 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@id/ib_more"
+        android:layout_toLeftOf="@id/ib_options"
         android:gravity="center"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:text="00:00"
-        android:textColor="#ff8e9093" />
+        android:textColor="@color/colorSubtitle" />
 
     <LinearLayout
         android:id="@+id/ll_title_set"
@@ -53,7 +56,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="@string/title"
-            android:textColor="#ffffffff"
+            android:textColor="@color/colorWhite"
             android:textSize="16sp"
 
             />
@@ -65,7 +68,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text="@string/artist_album"
-            android:textColor="#ff8e9093"
+            android:textColor="@color/colorSubtitle"
             android:textSize="12dp" />
     </LinearLayout>
 
