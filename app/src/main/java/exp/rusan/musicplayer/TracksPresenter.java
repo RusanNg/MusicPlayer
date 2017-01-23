@@ -1,16 +1,11 @@
 package exp.rusan.musicplayer;
 
 import android.content.Context;
-import android.net.Uri;
-import android.os.Handler;
-import android.os.Message;
-import android.provider.MediaStore;
 
 import java.util.List;
 
 import exp.rusan.musicplayer.TrackStore.ITrackModel;
 import exp.rusan.musicplayer.TrackStore.Track;
-import exp.rusan.musicplayer.TrackStore.TrackContentObserver;
 import exp.rusan.musicplayer.TrackStore.TracksLoader;
 
 /**
@@ -35,49 +30,23 @@ public class TracksPresenter implements ITracksContract.IPresenter {
 
     private Context context;
 
-    private TrackContentObserver trackContentObserver;
 
-    public TracksPresenter(Context pContext, TracksLoader tracksLoader, ITracksContract.IView
+    public TracksPresenter(Context pContext, ITracksContract.IView
             trackView) {
         this.context = pContext;
-        this.tracksLoader = tracksLoader;
+        this.tracksLoader = TracksLoader.getInstance(pContext.getContentResolver(), listener);
         this.trackView = trackView;
 
         trackView.setPresenter(this);
 
-        trackContentObserver = new TrackContentObserver(pContext, handler);
-        registerContentObserver();
     }
 
-
-    private void registerContentObserver() {
-
-        Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        context.getContentResolver().registerContentObserver(uri, false, trackContentObserver);
-
-    }
-
-
-    private Handler handler = new Handler() {
-
+    private ITrackModel.OnTracksChangeListener listener = new ITrackModel.OnTracksChangeListener() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-
-            switch (msg.what) {
-
-                case PersistenceVariable.HANDLER_WHAT_TRACK_CONTENT_OBSERVER:
-
-                    ReloadTracks((List<Track>) msg.obj);
-                    break;
-
-                default:
-                    break;
-            }
-
+        public void onChange(List<Track> pTracks) {
+            ReloadTracks(pTracks);
         }
     };
-
 
     @Override
     public void loadTracks() {
@@ -99,7 +68,6 @@ public class TracksPresenter implements ITracksContract.IPresenter {
     public void ReloadTracks(List<Track> pTracks) {
         trackView.showReloadTracks(pTracks);
     }
-
 
     @Override
     public void start() {
