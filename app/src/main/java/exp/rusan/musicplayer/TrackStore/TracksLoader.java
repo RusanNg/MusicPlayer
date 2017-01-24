@@ -1,8 +1,10 @@
 package exp.rusan.musicplayer.TrackStore;
 
 import android.content.ContentResolver;
+import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore.Audio.Media;
 import android.util.Log;
 
@@ -10,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Description: 使用CotentResolver(Content Provider)获取本地音乐库信息
+ * Description: 使用CotentResolver(Content Provider)获取本地音乐库信息,并且监听数据变化
  * <!--
  * Author: Rusan
  * Date: 2017/1/6
@@ -29,9 +31,11 @@ public class TracksLoader implements ITrackModel{
 
     private static TracksLoader tracksLoader;
 
-    private static ContentResolver contentResolver;
+    private ContentResolver contentResolver;
 
-    private Uri trackUri = Media.EXTERNAL_CONTENT_URI;
+    private TracksContentObserver tracksContentObserver;
+
+    private Uri tracksUri = Media.EXTERNAL_CONTENT_URI;
 
     private String[] projection = {
             Media._ID,
@@ -46,24 +50,35 @@ public class TracksLoader implements ITrackModel{
 
     private String sortOrder = Media.DATA;
 
-    public static TracksLoader getInstance(ContentResolver pContentResolver) {
-        if (tracksLoader == null) {
-            contentResolver = pContentResolver;
-            tracksLoader = new TracksLoader();
-        }
 
+    private TracksLoader(ContentResolver pContentResolver, OnTracksChangeListener pListener) {
+        this.contentResolver = pContentResolver;
 
-        return tracksLoader;
+        tracksContentObserver = new TracksContentObserver(pListener);
+        registerTracksContentObserver();
+
+        loader();
     }
 
-    private TracksLoader() {
-        loader();
+    /**
+     * Registe observer for tracks content resolver.
+     */
+    private void registerTracksContentObserver() {
+        contentResolver.registerContentObserver(tracksUri, false, tracksContentObserver);
+    }
+
+    public static TracksLoader getInstance(ContentResolver pContentResolver, OnTracksChangeListener
+            pListener) {
+        if (tracksLoader == null) {
+            tracksLoader = new TracksLoader(pContentResolver, pListener);
+        }
+        return tracksLoader;
     }
 
     private void loader() {
         tracks = new ArrayList<>();
 
-        Cursor cursor = contentResolver.query(trackUri, projection, where, null, sortOrder);
+        Cursor cursor = contentResolver.query(tracksUri, projection, where, null, sortOrder);
         if (cursor == null) {
             Log.v(TAG, "Music Loader cursor == null.");
         } else if (!cursor.moveToFirst()) {
@@ -95,24 +110,45 @@ public class TracksLoader implements ITrackModel{
         return tracks;
     }
 
-//    public List<Track> getTracks() {
-//        return tracks;
-//    }
 
     @Override
     public void getTasks(LoadTracksCallback pCallback) {
-
         Log.i(TAG, "Tracks's num is " + tracks.size());
         if (tracks.isEmpty()) {
             pCallback.onDataNotAvailable();
         } else {
             pCallback.onTracksLoaded(tracks);
         }
-
     }
 
     @Override
     public void getTrack(GetTrackCallback pCallback) {
+
+    }
+
+
+    /**
+     * TrackCotentObserver to listen tracks data changes. The method onChange will be invoked
+     * when data change.
+     */
+    private class TracksContentObserver extends ContentObserver{
+
+        private OnTracksChangeListener listener;
+
+        public TracksContentObserver(OnTracksChangeListener pListener) {
+            super(new Handler());
+            this.listener = pListener;
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            super.onChange(selfChange, uri);
+
+            Log.i(TAG, "onChange: Music store have changed.");
+            loader();
+            listener.onChange(tracks);
+
+        }
 
     }
 }

@@ -30,6 +30,10 @@ public interface ITrackModel {
         void onDataNotAvailable();
     }
 
+    interface OnTracksChangeListener {
+        void onChange(List<Track> pTracks);
+    }
+
     void getTasks(LoadTracksCallback pCallback);
 
     void getTrack(GetTrackCallback pCallback);

@@ -13,8 +13,6 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import exp.rusan.musicplayer.TrackStore.Track;
-import exp.rusan.musicplayer.TrackStore.TrackContentObserver;
-import exp.rusan.musicplayer.TrackStore.TracksLoader;
 
 /**
  * Description: Library fragment 配合 TabLayout 和 ViewPager 使用
@@ -39,8 +37,6 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
 
     private TracksAdapter tracksAdapter;
 
-    private TrackContentObserver trackContentObserver;
-
     public static LibraryPageFragment newInstance() {
         return new LibraryPageFragment();
     }
@@ -50,9 +46,7 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new TracksPresenter(getContext(), TracksLoader.getInstance(getContext()
-                .getContentResolver
-                ()), this);
+        presenter = new TracksPresenter(getContext(), this);
     }
 
     @Override
@@ -76,45 +70,14 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
                 .VERTICAL_LIST));
 
         tracksAdapter = new TracksAdapter(onItemClickListener);
-//        tracksAdapter.setTracks(TracksLoader.getInstance(getContext().getContentResolver())
-//                .getTracks());
+
         rvTracks.setAdapter(tracksAdapter);
 
-//        trackContentObserver = new TrackContentObserver(getContext(), handler);
-
-//        registerContentObservers();
 
         return v;
 
     }
 
-//
-//    private Handler handler = new Handler() {
-//
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//
-//            Log.i(TAG, "-----handler-----");
-//
-//            switch (msg.what) {
-//                case WHAT_TRACK_CONTENT_OBSERVER:
-//                    List<Track> trackList = (ArrayList<Track>) msg.obj;
-//                    Log.i(TAG, "Song list from handler is " + trackList.size());
-//                    tracksAdapter.setTracks(trackList);
-//                    break;
-//
-//                default:
-//                    break;
-//            }
-//        }
-//    };
-
-//    private void registerContentObservers() {
-//        Uri trackUri = Media.EXTERNAL_CONTENT_URI;
-//        getContext().getContentResolver().registerContentObserver(trackUri, false,
-//                trackContentObserver);
-//    }
 
     TracksAdapter.OnItemClickListener onItemClickListener = new TracksAdapter.OnItemClickListener() {
         @Override
