@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TracksPage;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import exp.rusan.musicplayer.DividerItemDecoration;
+import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.TrackStore.Track;
 
 /**
@@ -26,19 +28,28 @@ import exp.rusan.musicplayer.TrackStore.Track;
  * -->
  */
 
-public class LibraryPageFragment extends Fragment implements ITracksContract.IView {
+public class LibraryTracksPageFragment extends Fragment implements ITracksPageContract.ITracksPageView {
 
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private ITracksContract.IPresenter presenter;
+    private ITracksPageContract.ITracksPagePresenter presenter;
 
     RecyclerView rvTracks;
 
-    private TracksAdapter tracksAdapter;
+    private static LibraryTracksPageFragment fragment;
 
-    public static LibraryPageFragment newInstance() {
-        return new LibraryPageFragment();
+    private TracksRecyclerViewAdapter tracksRecyclerViewAdapter;
+
+    public static LibraryTracksPageFragment newInstance() {
+        return new LibraryTracksPageFragment();
+    }
+
+    public static LibraryTracksPageFragment getInstance() {
+        if (fragment == null) {
+            fragment = new LibraryTracksPageFragment();
+        }
+        return fragment;
     }
 
 
@@ -46,7 +57,7 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new TracksPresenter(getContext(), this);
+        presenter = new TracksTracksPagePresenter(getContext(), this);
     }
 
     @Override
@@ -60,7 +71,7 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(R.layout.fragment_library_page, container, false);
+        View v = inflater.inflate(R.layout.fragment_library_tracks_page, container, false);
 
         // Track List
         rvTracks = (RecyclerView) v.findViewById(R.id.rv_tracks);
@@ -69,9 +80,9 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
         rvTracks.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration
                 .VERTICAL_LIST));
 
-        tracksAdapter = new TracksAdapter(onItemClickListener);
+        tracksRecyclerViewAdapter = new TracksRecyclerViewAdapter(onItemClickListener);
 
-        rvTracks.setAdapter(tracksAdapter);
+        rvTracks.setAdapter(tracksRecyclerViewAdapter);
 
 
         return v;
@@ -79,10 +90,11 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
     }
 
 
-    TracksAdapter.OnItemClickListener onItemClickListener = new TracksAdapter.OnItemClickListener() {
+    TracksRecyclerViewAdapter.OnItemClickListener onItemClickListener = new TracksRecyclerViewAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(int position) {
-            Track track = tracksAdapter.getTrack(position);
+            //// TODO: 2017/2/14 Track item click
+            Track track = tracksRecyclerViewAdapter.getTrack(position);
             Log.d(TAG, track.getTitle());
 
         }
@@ -96,7 +108,7 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
     @Override
     public void showTracks(List<Track> pTracks) {
         Log.i(TAG, "Tracks num : " + pTracks.size());
-        tracksAdapter.setTracks(pTracks);
+        tracksRecyclerViewAdapter.setTracks(pTracks);
     }
 
     @Override
@@ -106,12 +118,12 @@ public class LibraryPageFragment extends Fragment implements ITracksContract.IVi
 
     @Override
     public void showReloadTracks(List<Track> pTracks) {
-        tracksAdapter.setTracks(pTracks);
+        tracksRecyclerViewAdapter.setTracks(pTracks);
     }
 
 
     @Override
-    public void setPresenter(ITracksContract.IPresenter pIPresenter) {
-        this.presenter = pIPresenter;
+    public void setPresenter(ITracksPageContract.ITracksPagePresenter pITracksPagePresenter) {
+        this.presenter = pITracksPagePresenter;
     }
 }

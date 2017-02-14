@@ -14,6 +14,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import exp.rusan.musicplayer.TracksPage.TracksTracksPagePresenter;
 import exp.rusan.musicplayer.Util.PermissionUtils;
 
 public class TrackListActivity extends AppCompatActivity
@@ -21,7 +22,7 @@ public class TrackListActivity extends AppCompatActivity
 
     private final static String TAG = TrackListActivity.class.getSimpleName();
 
-    private TracksPresenter tracksPresenter;
+    private TracksTracksPagePresenter tracksPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

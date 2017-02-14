@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TracksPage;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -9,13 +9,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.TrackStore.Track;
 
 /**
- * Description: Songs recycler view adapter.
+ * Description: Tracks recycler view adapter.
  * <!--
  * Author: Rusan
  * Date: 2017/1/3
@@ -26,7 +29,7 @@ import exp.rusan.musicplayer.TrackStore.Track;
  * -->
  */
 
-public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.TrackViewHolder> {
+public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecyclerViewAdapter.TrackViewHolder> {
 
     private final String TAG = this.getClass().getSimpleName();
 
@@ -37,7 +40,7 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.TrackViewH
         void onItemClick(int position);
     }
 
-    public TracksAdapter(OnItemClickListener pItemClickListener) {
+    public TracksRecyclerViewAdapter(OnItemClickListener pItemClickListener) {
         this.itemClickListener = pItemClickListener;
         this.tracks = new ArrayList<>();
     }
@@ -54,7 +57,7 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.TrackViewH
 
     @Override
     public TrackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track, parent,
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tracks, parent,
                 false);
         return new TrackViewHolder(view, itemClickListener);
     }
@@ -62,9 +65,19 @@ public class TracksAdapter extends RecyclerView.Adapter<TracksAdapter.TrackViewH
     @Override
     public void onBindViewHolder(TrackViewHolder holder, int position) {
         Track track = tracks.get(position);
+        Integer trackDuration = track.getDuration();
         holder.tvTitle.setText(track.getTitle());
         holder.tvSubTitle.setText(track.getArtist() + " - " + track.getAlbum());
-        holder.tvDuration.setText(track.getDuration().toString());
+
+        if (trackDuration >= 72000000) {
+
+            holder.tvDuration.setText(new SimpleDateFormat("hh:mm:ss").format(new Date(trackDuration)));
+
+        } else {
+
+            holder.tvDuration.setText(new SimpleDateFormat("mm:ss").format(new Date(trackDuration)));
+
+        }
     }
 
     @Override

@@ -48,7 +48,7 @@ public class TracksLoader implements ITrackModel{
     private String where = "mime_type in ('audio/mpeg', 'audio/x-ms-wma') and TITLE" +
             " <> 'audio' and is_music > 0";
 
-    private String sortOrder = Media.DATA;
+    private String sortOrder = Media.TITLE;
 
 
     private TracksLoader(ContentResolver pContentResolver, OnTracksChangeListener pListener) {

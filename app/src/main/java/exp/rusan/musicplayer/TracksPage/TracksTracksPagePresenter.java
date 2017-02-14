@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TracksPage;
 
 import android.content.Context;
 
@@ -20,18 +20,18 @@ import exp.rusan.musicplayer.TrackStore.TracksLoader;
  * -->
  */
 
-public class TracksPresenter implements ITracksContract.IPresenter {
+public class TracksTracksPagePresenter implements ITracksPageContract.ITracksPagePresenter {
 
     private static final String TAG = "TracksPresent";
 
     private final TracksLoader tracksLoader;
 
-    private final ITracksContract.IView trackView;
+    private final ITracksPageContract.ITracksPageView trackView;
 
     private Context context;
 
 
-    public TracksPresenter(Context pContext, ITracksContract.IView
+    public TracksTracksPagePresenter(Context pContext, ITracksPageContract.ITracksPageView
             trackView) {
         this.context = pContext;
         this.tracksLoader = TracksLoader.getInstance(pContext.getContentResolver(), listener);
@@ -72,6 +72,5 @@ public class TracksPresenter implements ITracksContract.IPresenter {
     @Override
     public void start() {
         loadTracks();
-
     }
 }

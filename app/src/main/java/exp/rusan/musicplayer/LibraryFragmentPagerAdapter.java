@@ -5,6 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import exp.rusan.musicplayer.AlbumsPage.LibraryAlbumsPageFragment;
+import exp.rusan.musicplayer.TracksPage.LibraryTracksPageFragment;
+
 /**
  * Description: FragmentPager 适配器
  * <!--
@@ -30,7 +33,28 @@ public class LibraryFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return LibraryPageFragment.newInstance();
+
+        Fragment fragment = new Fragment();
+
+        switch (position) {
+
+            case 0:
+                fragment = LibraryTracksPageFragment.newInstance();
+            break;
+
+            case 1:
+                fragment = LibraryTracksPageFragment.newInstance();
+            break;
+
+            case 2:
+                fragment = LibraryAlbumsPageFragment.getInstance();
+            break;
+
+            default:
+                break;
+        }
+
+        return fragment;
     }
 
     @Override

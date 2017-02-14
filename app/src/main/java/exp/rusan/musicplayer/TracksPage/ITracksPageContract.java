@@ -1,7 +1,9 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.TracksPage;
 
 import java.util.List;
 
+import exp.rusan.musicplayer.IBasePresenter;
+import exp.rusan.musicplayer.IBaseView;
 import exp.rusan.musicplayer.TrackStore.Track;
 
 /**
@@ -16,9 +18,9 @@ import exp.rusan.musicplayer.TrackStore.Track;
  * -->
  */
 
-public interface ITracksContract {
+public interface ITracksPageContract {
 
-    interface IView extends IBaseView<IPresenter> {
+    interface ITracksPageView extends IBaseView<ITracksPagePresenter> {
 
         void setPlayingIndicator(boolean isPlaying);
 
@@ -30,7 +32,7 @@ public interface ITracksContract {
 
     }
 
-    interface IPresenter extends IBasePresenter {
+    interface ITracksPagePresenter extends IBasePresenter {
 
         void loadTracks();
 

@@ -5,7 +5,7 @@ import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
 
 /**
- * Description: Song bean.
+ * Description: Track bean.
  * <!--
  * Author: Rusan
  * Date: 2017/1/3
