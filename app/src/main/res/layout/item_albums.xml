@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="144dp"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/colorAlbumsItem"
     >
 
     <ImageView
         android:id="@+id/iv_item_albums_art"
         android:layout_width="144dp"
         android:layout_height="144dp"
-        android:src="@drawable/ic_adjust_black_24dp" />
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_adjust_black_24dp"
+        />
 
     <TextView
         android:id="@+id/tv_item_albums_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
         android:ellipsize="end"
         android:lines="1"
         android:text="Album"
@@ -31,6 +35,8 @@
         android:textSize="12sp"
         android:lines="1"
         android:ellipsize="end"
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
         />
 
 </LinearLayout>

@@ -67,6 +67,7 @@ public class TracksLoader implements ITrackModel{
         contentResolver.registerContentObserver(tracksUri, false, tracksContentObserver);
     }
 
+
     public static TracksLoader getInstance(ContentResolver pContentResolver, OnTracksChangeListener
             pListener) {
         if (tracksLoader == null) {

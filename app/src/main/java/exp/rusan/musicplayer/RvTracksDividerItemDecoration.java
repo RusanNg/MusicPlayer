@@ -21,7 +21,7 @@ import android.view.View;
  * -->
  */
 
-public class DividerItemDecoration extends RecyclerView.ItemDecoration{
+public class RvTracksDividerItemDecoration extends RecyclerView.ItemDecoration{
 
     public final String TAG = this.getClass().getSimpleName();
 
@@ -37,7 +37,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration{
     private int orientation;
 
 
-    public DividerItemDecoration(Context context, int orientation) {
+    public RvTracksDividerItemDecoration(Context context, int orientation) {
         final TypedArray typedArray = context.obtainStyledAttributes(ATTRS);
         divider = typedArray.getDrawable(0);
         typedArray.recycle();

@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import exp.rusan.musicplayer.DividerItemDecoration;
+import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.TrackStore.Track;
 
@@ -77,7 +77,7 @@ public class LibraryTracksPageFragment extends Fragment implements ITracksPageCo
         rvTracks = (RecyclerView) v.findViewById(R.id.rv_tracks);
         rvTracks.setHasFixedSize(true);
         rvTracks.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvTracks.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration
+        rvTracks.addItemDecoration(new RvTracksDividerItemDecoration(getContext(), RvTracksDividerItemDecoration
                 .VERTICAL_LIST));
 
         tracksRecyclerViewAdapter = new TracksRecyclerViewAdapter(onItemClickListener);

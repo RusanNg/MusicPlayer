@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.R;
+import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
 
 /**
  * Description:Albums page fragment in Library
@@ -51,8 +52,14 @@ public class LibraryAlbumsPageFragment extends Fragment{
         View v = inflater.inflate(R.layout.fragment_library_albums_page, container, false);
 
         RecyclerView rvAlbums = (RecyclerView) v.findViewById(R.id.rv_albums);
+
+        GridLayoutManager gm = new GridLayoutManager(getContext(), 2);
+
+
         rvAlbums.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvAlbums.setAdapter(adapter);
+        rvAlbums.setHasFixedSize(true);
+        rvAlbums.addItemDecoration(new RvAlbumsDividerItemDecoration());
 
 
 

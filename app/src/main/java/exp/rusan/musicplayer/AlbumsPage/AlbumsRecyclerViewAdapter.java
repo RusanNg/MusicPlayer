@@ -19,7 +19,7 @@ import exp.rusan.musicplayer.TrackStore.Album;
 import exp.rusan.musicplayer.TrackStore.AlbumsForTest;
 
 /**
- * Description: Recycler Adapter for Albums RecyclerView in AlumsPageFragment
+ * Description: Recycler Adapter for Albums RecyclerView in AlbumsPageFragment
  * <!--
  * Author: Rusan
  * Date: 2017/2/14
@@ -68,8 +68,6 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
         holder.tvAlbumSubtitle.setText(album.getArtist() + " - " + album.getTrackNum());
 
         Glide.with(context).load(album.getArtUri()).into(holder.ivAlbumArt);
-
-
 
     }
 
