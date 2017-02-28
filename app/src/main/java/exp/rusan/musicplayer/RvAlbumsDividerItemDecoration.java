@@ -26,6 +26,6 @@ public class RvAlbumsDividerItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        outRect.set(16, 24, 0, 0);
+        outRect.set(18, 24, 0, 0);
     }
 }

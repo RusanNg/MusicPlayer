@@ -1,8 +1,11 @@
 package exp.rusan.musicplayer.AlbumsPage;
 
 
+import java.util.List;
+
 import exp.rusan.musicplayer.IBasePresenter;
 import exp.rusan.musicplayer.IBaseView;
+import exp.rusan.musicplayer.TrackStore.Album;
 
 /**
  * Description: IAlbumsContract to constracting MVP architecture in Albums page
@@ -20,13 +23,17 @@ public interface IAlbumsContract {
 
     interface IAblumsPageView extends IBaseView<IAblumsPagePresenter> {
 
-        void showAlbums();
+        void showAlbums(List<Album> pAlbums);
+
+        void showReloadAlbums(List<Album> pAlbums);
 
     }
 
     interface IAblumsPagePresenter extends IBasePresenter {
 
-        void loadAlums();
+        void loadAlbums();
+
+        void reloadAlbums(List<Album> pAlbums);
 
     }
 

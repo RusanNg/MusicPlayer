@@ -16,7 +16,6 @@ import java.util.List;
 import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.TrackStore.Album;
-import exp.rusan.musicplayer.TrackStore.AlbumsForTest;
 
 /**
  * Description: Recycler Adapter for Albums RecyclerView in AlbumsPageFragment
@@ -41,8 +40,6 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
         this.onItemClickListener = pOnItemClickListener;
 
         albums = new ArrayList<>();
-        albums = AlbumsForTest.getAlbums();
-
         this.context = pContext;
     }
 
@@ -64,8 +61,8 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
 
         Album album = albums.get(position);
 
-        holder.tvAlbumTitle.setText(album.getTitle());
-        holder.tvAlbumSubtitle.setText(album.getArtist() + " - " + album.getTrackNum());
+        holder.tvAlbumTitle.setText(album.getAlbum());
+        holder.tvAlbumSubtitle.setText(album.getArtist() + " - " + album.getNumSongs() + " tracks");
 
         Glide.with(context).load(album.getArtUri()).into(holder.ivAlbumArt);
 

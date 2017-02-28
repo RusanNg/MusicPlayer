@@ -5,7 +5,7 @@ import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
-import android.provider.MediaStore.Audio.Media;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import java.util.List;
  * -->
  */
 
-public class TracksLoader implements ITrackModel{
+public class TracksLoader implements ITracksModel {
 
     private static final String TAG = "TracksLoader";
 
@@ -35,20 +35,22 @@ public class TracksLoader implements ITrackModel{
 
     private TracksContentObserver tracksContentObserver;
 
-    private Uri tracksUri = Media.EXTERNAL_CONTENT_URI;
+//    private Uri tracksUri = Uri.parse("content://media/external/audio/media");
+    private Uri tracksUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
 
     private String[] projection = {
-            Media._ID,
-            Media.TITLE,
-            Media.ARTIST,
-            Media.ALBUM,
-            Media.DURATION
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM,
+            MediaStore.Audio.Media.DURATION
     };
 
     private String where = "mime_type in ('audio/mpeg', 'audio/x-ms-wma') and TITLE" +
             " <> 'audio' and is_music > 0";
 
-    private String sortOrder = Media.TITLE;
+
+    private String sortOrder = MediaStore.Audio.Media.TITLE;
 
 
     private TracksLoader(ContentResolver pContentResolver, OnTracksChangeListener pListener) {
@@ -58,6 +60,9 @@ public class TracksLoader implements ITrackModel{
         registerTracksContentObserver();
 
         loader();
+
+        Log.i(TAG, "TracksLoader: : " + tracksUri);
+
     }
 
     /**
@@ -85,11 +90,11 @@ public class TracksLoader implements ITrackModel{
         } else if (!cursor.moveToFirst()) {
             Log.v(TAG, "Music Loader cursor.moveToFirst return false.");
         } else {
-            int idCol = cursor.getColumnIndex(Media._ID);
-            int titleCol = cursor.getColumnIndex(Media.TITLE);
-            int artistCol = cursor.getColumnIndex(Media.ARTIST);
-            int albumCol = cursor.getColumnIndex(Media.ALBUM);
-            int durationCol = cursor.getColumnIndex(Media.DURATION);
+            int idCol = cursor.getColumnIndex(MediaStore.Audio.Media._ID);
+            int titleCol = cursor.getColumnIndex(MediaStore.Audio.Media.TITLE);
+            int artistCol = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST);
+            int albumCol = cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM);
+            int durationCol = cursor.getColumnIndex(MediaStore.Audio.Media.DURATION);
 
             do {
                 int id = cursor.getInt(idCol);

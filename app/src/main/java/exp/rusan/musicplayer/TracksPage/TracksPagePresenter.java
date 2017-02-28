@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import exp.rusan.musicplayer.TrackStore.ITrackModel;
+import exp.rusan.musicplayer.TrackStore.ITracksModel;
 import exp.rusan.musicplayer.TrackStore.Track;
 import exp.rusan.musicplayer.TrackStore.TracksLoader;
 
@@ -20,28 +20,28 @@ import exp.rusan.musicplayer.TrackStore.TracksLoader;
  * -->
  */
 
-public class TracksTracksPagePresenter implements ITracksPageContract.ITracksPagePresenter {
+public class TracksPagePresenter implements ITracksPageContract.ITracksPagePresenter {
 
     private static final String TAG = "TracksPresent";
 
-    private final TracksLoader tracksLoader;
+    private final ITracksModel tracksLoader;
 
     private final ITracksPageContract.ITracksPageView trackView;
 
     private Context context;
 
 
-    public TracksTracksPagePresenter(Context pContext, ITracksPageContract.ITracksPageView
+    public TracksPagePresenter(Context pContext, ITracksPageContract.ITracksPageView
             trackView) {
         this.context = pContext;
         this.tracksLoader = TracksLoader.getInstance(pContext.getContentResolver(), listener);
         this.trackView = trackView;
 
-        trackView.setPresenter(this);
+//        trackView.setPresenter(this);
 
     }
 
-    private ITrackModel.OnTracksChangeListener listener = new ITrackModel.OnTracksChangeListener() {
+    private ITracksModel.OnTracksChangeListener listener = new ITracksModel.OnTracksChangeListener() {
         @Override
         public void onChange(List<Track> pTracks) {
             ReloadTracks(pTracks);
@@ -50,7 +50,7 @@ public class TracksTracksPagePresenter implements ITracksPageContract.ITracksPag
 
     @Override
     public void loadTracks() {
-        tracksLoader.getTasks(new ITrackModel.LoadTracksCallback() {
+        tracksLoader.getTasks(new ITracksModel.LoadTracksCallback() {
             @Override
             public void onTracksLoaded(List<Track> pTracks) {
 

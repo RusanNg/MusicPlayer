@@ -15,16 +15,16 @@ package exp.rusan.musicplayer.TrackStore;
 public class Album {
 
     private Integer id;
-    private String title;
+    private String album;
     private String artist;
-    private Integer trackNum;
+    private Integer numSongs;
     private String artUri;
 
-    public Album(Integer pId, String pTitle, String pArtist, Integer pTrackNum, String pArtUri) {
+    public Album(Integer pId, String pAlbum, String pArtist, Integer pNumSongs, String pArtUri) {
         id = pId;
-        title = pTitle;
+        album = pAlbum;
         artist = pArtist;
-        trackNum = pTrackNum;
+        numSongs = pNumSongs;
         artUri = pArtUri;
     }
 
@@ -36,12 +36,12 @@ public class Album {
         id = pId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getAlbum() {
+        return album;
     }
 
-    public void setTitle(String pTitle) {
-        title = pTitle;
+    public void setAlbum(String pAlbum) {
+        album = pAlbum;
     }
 
     public String getArtist() {
@@ -52,12 +52,12 @@ public class Album {
         artist = pArtist;
     }
 
-    public Integer getTrackNum() {
-        return trackNum;
+    public Integer getNumSongs() {
+        return numSongs;
     }
 
-    public void setTrackNum(Integer pTrackNum) {
-        trackNum = pTrackNum;
+    public void setNumSongs(Integer pNumSongs) {
+        numSongs = pNumSongs;
     }
 
     public String getArtUri() {

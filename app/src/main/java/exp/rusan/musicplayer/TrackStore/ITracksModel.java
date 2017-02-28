@@ -14,7 +14,7 @@ import java.util.List;
  * -->
  */
 
-public interface ITrackModel {
+public interface ITracksModel {
 
     interface LoadTracksCallback {
 

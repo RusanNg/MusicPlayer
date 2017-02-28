@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
+import exp.rusan.musicplayer.TrackStore.Album;
 
 /**
  * Description:Albums page fragment in Library
@@ -26,9 +29,11 @@ import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
  * -->
  */
 
-public class LibraryAlbumsPageFragment extends Fragment{
+public class LibraryAlbumsPageFragment extends Fragment implements IAlbumsContract.IAblumsPageView {
 
     private final String TAG = this.getClass().getSimpleName();
+
+    private IAlbumsContract.IAblumsPagePresenter presenter;
 
     private AlbumsRecyclerViewAdapter adapter;
 
@@ -42,6 +47,23 @@ public class LibraryAlbumsPageFragment extends Fragment{
         return fragment;
     }
 
+
+    private LibraryAlbumsPageFragment() {
+//        presenter = new AlbumsPagePresenter();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        this.presenter = new AlbumsPagePresenter(getContext(), this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.start();
+    }
 
     @Nullable
     @Override
@@ -74,6 +96,18 @@ public class LibraryAlbumsPageFragment extends Fragment{
         }
     };
 
+    @Override
+    public void showAlbums(List<Album> pAlbums) {
+        adapter.setAlbums(pAlbums);
+    }
 
+    @Override
+    public void showReloadAlbums(List<Album> pAlbums) {
+        adapter.setAlbums(pAlbums);
+    }
 
+    @Override
+    public void setPresenter(IAlbumsContract.IAblumsPagePresenter pPresenter) {
+        this.presenter = pPresenter;
+    }
 }

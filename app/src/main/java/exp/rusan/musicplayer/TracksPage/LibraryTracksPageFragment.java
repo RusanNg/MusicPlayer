@@ -57,7 +57,7 @@ public class LibraryTracksPageFragment extends Fragment implements ITracksPageCo
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        presenter = new TracksTracksPagePresenter(getContext(), this);
+        presenter = new TracksPagePresenter(getContext(), this);
     }
 
     @Override
