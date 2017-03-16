@@ -5,8 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import exp.rusan.musicplayer.AlbumsPage.LibraryAlbumsPageFragment;
-import exp.rusan.musicplayer.TracksPage.LibraryTracksPageFragment;
+import java.util.Map;
 
 /**
  * Description: FragmentPager 适配器
@@ -26,6 +25,8 @@ public class LibraryFragmentPagerAdapter extends FragmentPagerAdapter {
     private static String[] TabTitles = new String[]{"ARTISTS", "TRACKS", "ALBUMS"};
     private Context context;
 
+    private Map<String, Fragment> fragmentMap;
+
     public LibraryFragmentPagerAdapter(FragmentManager fm, Context pContext) {
         super(fm);
         this.context = pContext;
@@ -39,15 +40,15 @@ public class LibraryFragmentPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
 
             case 0:
-                fragment = LibraryTracksPageFragment.newInstance();
+                fragment = fragmentMap.get("artists");
             break;
 
             case 1:
-                fragment = LibraryTracksPageFragment.newInstance();
+                fragment = fragmentMap.get("tracks");
             break;
 
             case 2:
-                fragment = LibraryAlbumsPageFragment.getInstance();
+                fragment = fragmentMap.get("albums");
             break;
 
             default:
@@ -65,5 +66,9 @@ public class LibraryFragmentPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return TabTitles[position];
+    }
+
+    public void setFragments(Map pFragmentMap) {
+        fragmentMap = pFragmentMap;
     }
 }

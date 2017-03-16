@@ -8,9 +8,8 @@
 
     <ImageView
         android:id="@+id/iv_item_albums_art"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
-        android:layout_margin="8dp"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
         android:src="@drawable/ic_adjust_black_24dp"
         />
 

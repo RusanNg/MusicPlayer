@@ -1,14 +1,14 @@
-package exp.rusan.musicplayer.AlbumsPage;
+package exp.rusan.musicplayer.constract;
 
 
 import java.util.List;
 
 import exp.rusan.musicplayer.IBasePresenter;
 import exp.rusan.musicplayer.IBaseView;
-import exp.rusan.musicplayer.TrackStore.Album;
+import exp.rusan.musicplayer.bean.Album;
 
 /**
- * Description: IAlbumsContract to constracting MVP architecture in Albums page
+ * Description: IAlbumsPageContract to constracting MVP architecture in Albums page
  * <!--
  * Author: Rusan
  * Date: 2017/2/14
@@ -19,7 +19,7 @@ import exp.rusan.musicplayer.TrackStore.Album;
  * -->
  */
 
-public interface IAlbumsContract {
+public interface IAlbumsPageContract {
 
     interface IAblumsPageView extends IBaseView<IAblumsPagePresenter> {
 

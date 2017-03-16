@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.TracksPage;
+package exp.rusan.musicplayer.vIew.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exp.rusan.musicplayer.R;
-import exp.rusan.musicplayer.TrackStore.Track;
+import exp.rusan.musicplayer.bean.Track;
 
 /**
  * Description: Tracks recycler view adapter.
@@ -67,7 +67,7 @@ public class TracksRecyclerViewAdapter extends RecyclerView.Adapter<TracksRecycl
         Track track = tracks.get(position);
         Integer trackDuration = track.getDuration();
         holder.tvTitle.setText(track.getTitle());
-        holder.tvSubTitle.setText(track.getArtist() + " - " + track.getAlbum());
+        holder.tvSubTitle.setText(track.getAlbumTitle() + " - " + track.getAlbumTitle());
 
         if (trackDuration >= 72000000) {
 

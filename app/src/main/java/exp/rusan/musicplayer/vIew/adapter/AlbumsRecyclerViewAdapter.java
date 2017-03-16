@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.AlbumsPage;
+package exp.rusan.musicplayer.vIew.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +15,10 @@ import java.util.List;
 
 import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.R;
-import exp.rusan.musicplayer.TrackStore.Album;
+import exp.rusan.musicplayer.bean.Album;
 
 /**
- * Description: Recycler Adapter for Albums RecyclerView in AlbumsPageFragment
+ * Description: Recycler Adapter for Albums RecyclerView in AlbumsFragment
  * <!--
  * Author: Rusan
  * Date: 2017/2/14
@@ -60,9 +60,16 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
 
         Album album = albums.get(position);
+        Integer numTracks = album.getNumTracks();
 
-        holder.tvAlbumTitle.setText(album.getAlbum());
-        holder.tvAlbumSubtitle.setText(album.getArtist() + " - " + album.getNumSongs() + " tracks");
+        holder.tvAlbumTitle.setText(album.getTitle());
+
+        if (numTracks > 1) {
+            holder.tvAlbumSubtitle.setText(album.getArtistTitle() + " - " + numTracks + " tracks");
+        } else {
+            holder.tvAlbumSubtitle.setText(album.getArtistTitle() + " - " + numTracks + " track");
+        }
+
 
         Glide.with(context).load(album.getArtUri()).into(holder.ivAlbumArt);
 

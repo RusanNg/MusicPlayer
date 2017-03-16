@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.TracksPage;
+package exp.rusan.musicplayer.vIew;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,11 +10,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
-import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
 import exp.rusan.musicplayer.R;
-import exp.rusan.musicplayer.TrackStore.Track;
+import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
+import exp.rusan.musicplayer.bean.Track;
+import exp.rusan.musicplayer.constract.ITracksPageContract;
+import exp.rusan.musicplayer.vIew.adapter.TracksRecyclerViewAdapter;
 
 /**
  * Description: Library fragment 配合 TabLayout 和 ViewPager 使用
@@ -28,7 +32,7 @@ import exp.rusan.musicplayer.TrackStore.Track;
  * -->
  */
 
-public class LibraryTracksPageFragment extends Fragment implements ITracksPageContract.ITracksPageView {
+public class TracksFragment extends Fragment implements ITracksPageContract.ITracksPageView {
 
 
     private final String TAG = this.getClass().getSimpleName();
@@ -37,27 +41,17 @@ public class LibraryTracksPageFragment extends Fragment implements ITracksPageCo
 
     RecyclerView rvTracks;
 
-    private static LibraryTracksPageFragment fragment;
-
     private TracksRecyclerViewAdapter tracksRecyclerViewAdapter;
 
-    public static LibraryTracksPageFragment newInstance() {
-        return new LibraryTracksPageFragment();
-    }
+    public static TracksFragment newInstance() {
+        TracksFragment fragment = new TracksFragment();
 
-    public static LibraryTracksPageFragment getInstance() {
-        if (fragment == null) {
-            fragment = new LibraryTracksPageFragment();
-        }
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        presenter = new TracksPagePresenter(getContext(), this);
     }
 
     @Override
@@ -107,7 +101,7 @@ public class LibraryTracksPageFragment extends Fragment implements ITracksPageCo
 
     @Override
     public void showTracks(List<Track> pTracks) {
-        Log.i(TAG, "Tracks num : " + pTracks.size());
+        Logger.i(TAG, "Tracks num : " + pTracks.size());
         tracksRecyclerViewAdapter.setTracks(pTracks);
     }
 

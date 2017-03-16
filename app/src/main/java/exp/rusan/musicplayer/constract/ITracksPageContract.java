@@ -1,10 +1,10 @@
-package exp.rusan.musicplayer.TracksPage;
+package exp.rusan.musicplayer.constract;
 
 import java.util.List;
 
 import exp.rusan.musicplayer.IBasePresenter;
 import exp.rusan.musicplayer.IBaseView;
-import exp.rusan.musicplayer.TrackStore.Track;
+import exp.rusan.musicplayer.bean.Track;
 
 /**
  * Description: Tracks MVP 订约
@@ -36,7 +36,7 @@ public interface ITracksPageContract {
 
         void loadTracks();
 
-        void ReloadTracks(List<Track> pTracks);
+        void reloadTracks(List<Track> pTracks);
 
     }
 }

@@ -3,20 +3,58 @@
     android:layout_width="match_parent"
     android:layout_height="72dp"
     android:paddingBottom="4dp"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="4dp">
 
     <ImageView
-        android:id="@+id/iv_artist_art"
+        android:id="@+id/iv_item_artists_art"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/ic_voice_black_24dp" />
+        android:src="@drawable/ic_voice_black_24dp"
+        android:layout_marginLeft="8dp"
+        />
 
-    <TextView
-        android:id="@+id/tv_artist_title"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Artists" />
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/iv_item_artists_art"
+        android:layout_marginLeft="8dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_item_artists_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="Artist"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:paddingBottom="4dp"
+            />
+
+        <TextView
+            android:id="@+id/tv_item_artists_subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 album - 0 track"
+            android:textColor="@color/colorSubtitle"
+            android:textSize="12sp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:layout_below="@id/tv_item_artists_title"
+            />
+
+    </RelativeLayout>
+
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_navigate_next_white_24dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="16dp"
+        />
 
 </RelativeLayout>

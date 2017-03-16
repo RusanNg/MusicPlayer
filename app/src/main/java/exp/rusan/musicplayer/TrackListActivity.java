@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -14,7 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import exp.rusan.musicplayer.TracksPage.TracksPagePresenter;
+import java.util.HashMap;
+import java.util.Map;
+
+import exp.rusan.musicplayer.presenter.AlbumsPresenter;
+import exp.rusan.musicplayer.presenter.ArtistsPresenter;
+import exp.rusan.musicplayer.vIew.AlbumsFragment;
+import exp.rusan.musicplayer.vIew.ArtistsFragment;
+import exp.rusan.musicplayer.vIew.TracksFragment;
+import exp.rusan.musicplayer.presenter.TracksPresenter;
 import exp.rusan.musicplayer.Util.PermissionUtils;
 
 public class TrackListActivity extends AppCompatActivity
@@ -22,20 +31,42 @@ public class TrackListActivity extends AppCompatActivity
 
     private final static String TAG = TrackListActivity.class.getSimpleName();
 
-    private TracksPagePresenter tracksPresenter;
+    private Map<String, Fragment> fragmentMap;
+
+    private TracksFragment tracksFragment;
+    private ArtistsFragment artistsFragment;
+    private AlbumsFragment albumsFragment;
+
+    private TracksPresenter tracksPresenter;
+    private ArtistsPresenter artistsPresenter;
+    private AlbumsPresenter albumsPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
 
+        fragmentMap = new HashMap<>();
+
+        artistsFragment = ArtistsFragment.newInstance();
+        tracksFragment = TracksFragment.newInstance();
+        albumsFragment = AlbumsFragment.newInstance();
+
+        fragmentMap.put("artists", artistsFragment);
+        fragmentMap.put("tracks", tracksFragment);
+        fragmentMap.put("albums", albumsFragment);
+
+
         // TODO: 2017/1/6 权限管理
         PermissionUtils.requestPermission(this, PermissionUtils.CODE_READ_EXTERNAL_STORAGE,
                 permissionGrant);
 
+
+
+
     }
 
-    void setUpView() {
+    void setView() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
@@ -50,16 +81,31 @@ public class TrackListActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        albumsFragment.setPresenter(albumsPresenter);
+        artistsFragment.setPresenter(artistsPresenter);
+        tracksFragment.setPresenter(tracksPresenter);
+
         // TabLayout and ViewPager
         ViewPager vpLibrary = (ViewPager) findViewById(R.id.vp_library);
 
         LibraryFragmentPagerAdapter vpLibraryAdapter = new LibraryFragmentPagerAdapter
                 (getSupportFragmentManager(), this);
+        vpLibraryAdapter.setFragments(fragmentMap);
         vpLibrary.setAdapter(vpLibraryAdapter);
 
         TabLayout tlLibrary = (TabLayout) findViewById(R.id.tl_library);
         tlLibrary.setupWithViewPager(vpLibrary);
     }
+
+    void setPresenter() {
+        albumsPresenter = new AlbumsPresenter(getApplicationContext(),
+                albumsFragment);
+        tracksPresenter = new TracksPresenter(getApplicationContext(),
+                tracksFragment);
+        artistsPresenter = new ArtistsPresenter(getApplicationContext(),
+                artistsFragment);
+    }
+
 
     private PermissionUtils.PermissionGrant permissionGrant = new PermissionUtils.PermissionGrant() {
         @Override
@@ -69,7 +115,8 @@ public class TrackListActivity extends AppCompatActivity
                 case PermissionUtils.CODE_READ_EXTERNAL_STORAGE:
                     Snackbar.make(findViewById(R.id.toolbar), "Permission requested is " +
                             "granted!!!", Snackbar.LENGTH_SHORT).show();
-                    setUpView();
+                    setPresenter();
+                    setView();
                     break;
 
                 default:

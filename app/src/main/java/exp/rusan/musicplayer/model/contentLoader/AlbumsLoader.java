@@ -1,6 +1,6 @@
-package exp.rusan.musicplayer.TrackStore;
+package exp.rusan.musicplayer.model.contentLoader;
 
-import android.content.ContentResolver;
+import android.content.Context;
 import android.database.ContentObserver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -10,6 +10,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import exp.rusan.musicplayer.bean.Album;
+import exp.rusan.musicplayer.model.ITrackStoreModel;
+import exp.rusan.musicplayer.model.TrackStore;
 
 /**
  * Description:Load albums data via content provider
@@ -23,13 +27,11 @@ import java.util.List;
  * -->
  */
 
-public class AlbumsLoader implements IAlbumsModel {
+public class AlbumsLoader {
 
     private static final String TAG = "AlbumsLoader";
 
-    private static AlbumsLoader albumsLoader;
-
-    private ContentResolver contentResolver;
+    private Context context;
 
     private AlbumsContentObserver albumsContentObserver;
 
@@ -39,11 +41,12 @@ public class AlbumsLoader implements IAlbumsModel {
 
     private String[] projection = {
 
-        MediaStore.Audio.Albums._ID,
-        MediaStore.Audio.Albums.ALBUM,
-        MediaStore.Audio.Albums.ARTIST,
-        MediaStore.Audio.Albums.NUMBER_OF_SONGS,
-        MediaStore.Audio.Albums.ALBUM_ART
+            MediaStore.Audio.Albums._ID,
+            MediaStore.Audio.Albums.ALBUM,
+            MediaStore.Audio.Media.ARTIST_ID,
+            MediaStore.Audio.Albums.NUMBER_OF_SONGS,
+            MediaStore.Audio.Albums.ALBUM_ART,
+            MediaStore.Audio.Albums.ARTIST
 
     };
 
@@ -51,40 +54,27 @@ public class AlbumsLoader implements IAlbumsModel {
 
     private String sortOrder = MediaStore.Audio.Albums.ALBUM;
 
-    private AlbumsLoader(ContentResolver pContentResolver, OnAlbumsChangeListener pListener ) {
-        this.contentResolver = pContentResolver;
+    public AlbumsLoader(Context pContext, ITrackStoreModel.OnDataChangeListener pListener) {
+        this.context = pContext.getApplicationContext();
 
         albumsContentObserver = new AlbumsContentObserver(pListener);
         registerAlbumsContentObserver();
 
         loader();
-
-
     }
 
-
-    public static AlbumsLoader getInstance(ContentResolver pContentResolver, OnAlbumsChangeListener
-            pListener) {
-
-        if (albumsLoader == null) {
-            albumsLoader = new AlbumsLoader(pContentResolver, pListener);
-        }
-
-        return albumsLoader;
-
-    }
 
     /**
      * Register content observer.
      */
     private void registerAlbumsContentObserver() {
-        contentResolver.registerContentObserver(albumsUrl, false, albumsContentObserver);
+        context.getContentResolver().registerContentObserver(albumsUrl, false, albumsContentObserver);
     }
 
     private void loader() {
         albums = new ArrayList<>();
 
-        Cursor cursor = contentResolver.query(albumsUrl, projection, selection, null,
+        Cursor cursor = context.getContentResolver().query(albumsUrl, projection, selection, null,
                 sortOrder);
 
         if (cursor == null) {
@@ -94,20 +84,22 @@ public class AlbumsLoader implements IAlbumsModel {
         } else {
 
             int idCol = cursor.getColumnIndex(MediaStore.Audio.Albums._ID);
-            int albumCol = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
-            int artistCol = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST);
-            int numSongsCol = cursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
+            int titleCol = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM);
+            int artistIdCol = cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST_ID);
+            int numTracksCol = cursor.getColumnIndex(MediaStore.Audio.Albums.NUMBER_OF_SONGS);
             int artUriCol = cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART);
+            int artistCol = cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST);
 
             do {
                 int id = cursor.getInt(idCol);
-                String album = cursor.getString(albumCol);
-                String artist = cursor.getString(artistCol);
-                Integer numSongs = cursor.getInt(numSongsCol);
+                String title = cursor.getString(titleCol);
+                int artistId = cursor.getInt(artistIdCol);
+                int numTracks = cursor.getInt(numTracksCol);
                 String artUri = cursor.getString(artUriCol);
+                String artist = cursor.getString(artistCol);
 
-                albums.add(new Album(id, album, artist, numSongs, artUri));
-
+                TrackStore.getInstance().addAlbum(new Album.Builder(id, title).numTracks
+                        (numTracks).artistTitle(artist).artUri(artUri).artistId(artistId).build());
 
             } while (cursor.moveToNext());
 
@@ -118,33 +110,15 @@ public class AlbumsLoader implements IAlbumsModel {
     }
 
 
-    @Override
-    public void getAlbums(LoadAlbumsCallback pCallback) {
-        Log.i(TAG, "getAlbums: albums' s size : " + albums.size());
-
-        if ( albums.isEmpty() ) {
-            pCallback.onDataNotAvailable();
-        } else {
-            pCallback.onAlbumsLoaded(albums);
-        }
-
-    }
-
-    @Override
-    public void getAlbum(GetAlbumCallback pCallback) {
-
-    }
-
-
     /**
      * AlbumsContentObserver is to listen to albums data, when albums data changes, the method
      * onChanges will be invoked.
      */
     private class AlbumsContentObserver extends ContentObserver {
 
-        private OnAlbumsChangeListener listener;
+        private ITrackStoreModel.OnDataChangeListener listener;
 
-        public AlbumsContentObserver(OnAlbumsChangeListener pListener) {
+        public AlbumsContentObserver(ITrackStoreModel.OnDataChangeListener pListener) {
             super(new Handler());
             this.listener = pListener;
         }

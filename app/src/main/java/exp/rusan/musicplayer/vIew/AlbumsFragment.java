@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.AlbumsPage;
+package exp.rusan.musicplayer.vIew;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,10 +12,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import exp.rusan.musicplayer.constract.IAlbumsPageContract;
 import exp.rusan.musicplayer.OnItemClickListener;
+import exp.rusan.musicplayer.presenter.AlbumsPresenter;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
-import exp.rusan.musicplayer.TrackStore.Album;
+import exp.rusan.musicplayer.bean.Album;
+import exp.rusan.musicplayer.vIew.adapter.AlbumsRecyclerViewAdapter;
 
 /**
  * Description:Albums page fragment in Library
@@ -29,34 +32,31 @@ import exp.rusan.musicplayer.TrackStore.Album;
  * -->
  */
 
-public class LibraryAlbumsPageFragment extends Fragment implements IAlbumsContract.IAblumsPageView {
+public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAblumsPageView {
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private IAlbumsContract.IAblumsPagePresenter presenter;
+    private IAlbumsPageContract.IAblumsPagePresenter presenter;
 
     private AlbumsRecyclerViewAdapter adapter;
 
-    private static LibraryAlbumsPageFragment fragment;
+    public static AlbumsFragment newInstance() {
 
+        AlbumsFragment fragment = new AlbumsFragment();
 
-    public static LibraryAlbumsPageFragment getInstance() {
-        if (fragment == null) {
-            fragment = new LibraryAlbumsPageFragment();
-        }
         return fragment;
     }
 
 
-    private LibraryAlbumsPageFragment() {
-//        presenter = new AlbumsPagePresenter();
+    public AlbumsFragment() {
+//        presenter = new AlbumsPresenter();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.presenter = new AlbumsPagePresenter(getContext(), this);
+        this.presenter = new AlbumsPresenter(getContext(), this);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class LibraryAlbumsPageFragment extends Fragment implements IAlbumsContra
     }
 
     @Override
-    public void setPresenter(IAlbumsContract.IAblumsPagePresenter pPresenter) {
+    public void setPresenter(IAlbumsPageContract.IAblumsPagePresenter pPresenter) {
         this.presenter = pPresenter;
     }
 }
