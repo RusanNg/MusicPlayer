@@ -1,6 +1,7 @@
-package exp.rusan.musicplayer.vIew;
+package exp.rusan.musicplayer.view;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +14,13 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import exp.rusan.musicplayer.ArtistDetailActivity;
 import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.constract.IArtistsPageContract;
-import exp.rusan.musicplayer.vIew.adapter.ArtistsRecyclerViewAdapter;
+import exp.rusan.musicplayer.view.adapter.ArtistsRecyclerViewAdapter;
 
 /**
  * Description:
@@ -67,7 +69,7 @@ public class ArtistsFragment extends Fragment implements IArtistsPageContract.IA
 
         adapter = new ArtistsRecyclerViewAdapter(getContext(), onItemClickListener);
 
-        View v = inflater.inflate(R.layout.fragment_library_artists_page, container, false);
+        View v = inflater.inflate(R.layout.frag_libr_artists_page, container, false);
 
         rvArtists = (RecyclerView) v.findViewById(R.id.rv_artists);
 
@@ -86,6 +88,7 @@ public class ArtistsFragment extends Fragment implements IArtistsPageContract.IA
         @Override
         public void onItemClick(int position) {
             Log.i(TAG, "onItemClick: item clicked");
+            startActivity(new Intent(getContext(), ArtistDetailActivity.class));
         }
     };
 

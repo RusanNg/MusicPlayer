@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@color/colorAlbumsItem"
+    android:foreground="?attr/selectableItemBackground"
     >
 
     <ImageView
@@ -17,6 +18,7 @@
         android:id="@+id/tv_item_albums_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
         android:paddingLeft="8dp"
         android:ellipsize="end"
         android:lines="1"

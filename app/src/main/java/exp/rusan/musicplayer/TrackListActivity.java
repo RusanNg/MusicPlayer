@@ -20,9 +20,9 @@ import java.util.Map;
 
 import exp.rusan.musicplayer.presenter.AlbumsPresenter;
 import exp.rusan.musicplayer.presenter.ArtistsPresenter;
-import exp.rusan.musicplayer.vIew.AlbumsFragment;
-import exp.rusan.musicplayer.vIew.ArtistsFragment;
-import exp.rusan.musicplayer.vIew.TracksFragment;
+import exp.rusan.musicplayer.view.AlbumsFragment;
+import exp.rusan.musicplayer.view.ArtistsFragment;
+import exp.rusan.musicplayer.view.TracksFragment;
 import exp.rusan.musicplayer.presenter.TracksPresenter;
 import exp.rusan.musicplayer.Util.PermissionUtils;
 

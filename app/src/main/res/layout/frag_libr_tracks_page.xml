@@ -16,11 +16,7 @@
             android:layout_height="36dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/bg_rectangle_btn_play_all"
-            android:text="PLAY ALL TRACKS"
-            android:drawableRight="@drawable/ic_play_arrow_black_24dp"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif"
+            style="@style/PlayAllBtnStyle"
             />
     </RelativeLayout>
 

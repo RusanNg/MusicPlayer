@@ -25,7 +25,7 @@
         android:layout_alignParentTop="true"
         android:gravity="center"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_more_horiz_black_24dp" />
+        android:src="@drawable/ic_options_horiz_black_24dp" />
 
     <TextView
         android:id="@+id/tv_duration"

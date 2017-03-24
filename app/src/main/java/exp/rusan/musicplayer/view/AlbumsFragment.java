@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.vIew;
+package exp.rusan.musicplayer.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +18,7 @@ import exp.rusan.musicplayer.presenter.AlbumsPresenter;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
 import exp.rusan.musicplayer.bean.Album;
-import exp.rusan.musicplayer.vIew.adapter.AlbumsRecyclerViewAdapter;
+import exp.rusan.musicplayer.view.adapter.AlbumsRecyclerViewAdapter;
 
 /**
  * Description:Albums page fragment in Library
@@ -71,7 +71,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
 
         adapter = new AlbumsRecyclerViewAdapter(getContext(), onItemClickListener);
 
-        View v = inflater.inflate(R.layout.fragment_library_albums_page, container, false);
+        View v = inflater.inflate(R.layout.frag_libr_albums_page, container, false);
 
         RecyclerView rvAlbums = (RecyclerView) v.findViewById(R.id.rv_albums);
 

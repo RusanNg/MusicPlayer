@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.vIew;
+package exp.rusan.musicplayer.view;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,7 +18,7 @@ import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
 import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.ITracksPageContract;
-import exp.rusan.musicplayer.vIew.adapter.TracksRecyclerViewAdapter;
+import exp.rusan.musicplayer.view.adapter.TracksRecyclerViewAdapter;
 
 /**
  * Description: Library fragment 配合 TabLayout 和 ViewPager 使用
@@ -65,7 +65,7 @@ public class TracksFragment extends Fragment implements ITracksPageContract.ITra
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(R.layout.fragment_library_tracks_page, container, false);
+        View v = inflater.inflate(R.layout.frag_libr_tracks_page, container, false);
 
         // Track List
         rvTracks = (RecyclerView) v.findViewById(R.id.rv_tracks);

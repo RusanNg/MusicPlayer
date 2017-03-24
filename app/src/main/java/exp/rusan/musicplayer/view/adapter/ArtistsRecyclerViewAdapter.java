@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.vIew.adapter;
+package exp.rusan.musicplayer.view.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
