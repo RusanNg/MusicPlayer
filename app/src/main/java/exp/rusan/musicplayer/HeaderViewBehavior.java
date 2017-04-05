@@ -22,7 +22,6 @@ import android.view.View;
 
 public class HeaderViewBehavior extends CoordinatorLayout.Behavior<HeaderView> {
 
-
     private Context context;
 
     private int startMarginLeft;

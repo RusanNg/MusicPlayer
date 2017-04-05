@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer;
+package exp.rusan.musicplayer.view.adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

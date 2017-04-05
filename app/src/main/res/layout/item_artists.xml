@@ -13,6 +13,7 @@
         android:src="@drawable/ic_voice_black_24dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
+        android:transitionName="art_artists_to_detail"
         />
 
     <RelativeLayout

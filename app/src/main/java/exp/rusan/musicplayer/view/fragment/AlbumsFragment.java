@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.view;
+package exp.rusan.musicplayer.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -90,7 +90,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
 
     OnItemClickListener onItemClickListener = new OnItemClickListener() {
         @Override
-        public void onItemClick(int position) {
+        public void onItemClick(int position, View v) {
             // TODO: 2017/2/14 album item click
             Log.i(TAG, "onItemClick: item clicked!!!");
         }

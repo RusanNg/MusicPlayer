@@ -2,30 +2,26 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_app_bar_base"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="exp.rusan.musicplayer.TrackListActivity">
+    tools:context="exp.rusan.musicplayer.view.activity.BaseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay"
-        app:elevation="0dp">
-
+        app:elevation="0dp"
+        >
 
         <android.support.v7.widget.Toolbar
-
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.AppBarOverlay" />
-
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            />
 
     </android.support.design.widget.AppBarLayout>
-
-
-    <include layout="@layout/content_music_list" />
 
 </android.support.design.widget.CoordinatorLayout>

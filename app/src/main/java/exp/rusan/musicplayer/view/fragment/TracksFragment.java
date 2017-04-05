@@ -1,4 +1,4 @@
-package exp.rusan.musicplayer.view;
+package exp.rusan.musicplayer.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

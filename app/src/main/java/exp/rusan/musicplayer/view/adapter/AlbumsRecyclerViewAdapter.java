@@ -70,8 +70,11 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
             holder.tvAlbumSubtitle.setText(album.getArtistTitle() + " - " + numTracks + " track");
         }
 
-
-        Glide.with(context).load(album.getArtUri()).into(holder.ivAlbumArt);
+        holder.ivAlbumArt.setImageDrawable(context.getResources().getDrawable(R.drawable
+                .ic_adjust_black_24dp));
+        if (album.getArtUri() != null) {
+            Glide.with(context).load(album.getArtUri()).into(holder.ivAlbumArt);
+        }
 
     }
 
@@ -98,7 +101,7 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
                 @Override
                 public void onClick(View v) {
                     if (pOnItemClickListener != null) {
-                        pOnItemClickListener.onItemClick(getAdapterPosition());
+                        pOnItemClickListener.onItemClick(getAdapterPosition(), v);
                     }
                 }
             });

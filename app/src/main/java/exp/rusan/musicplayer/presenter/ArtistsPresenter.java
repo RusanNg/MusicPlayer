@@ -60,8 +60,8 @@ public class ArtistsPresenter implements IArtistsPageContract.IArtistsPresenter 
 
         model.getArtists(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showArtists(pData);
+            public void onDataLoaded(Object pData) {
+                view.showArtists((List<Artist>) pData);
             }
 
             @Override
@@ -76,8 +76,8 @@ public class ArtistsPresenter implements IArtistsPageContract.IArtistsPresenter 
     public void reloadArtists(List<Artist> pArtists) {
         model.getArtists(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showReloadArtists(pData);
+            public void onDataLoaded(Object pData) {
+                view.showReloadArtists((List<Artist>) pData);
             }
 
             @Override

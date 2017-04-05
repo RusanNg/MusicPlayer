@@ -30,15 +30,13 @@
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar" >
+    <style name="ActionBarStyle" parent="Widget.AppCompat.ActionBar">
 
     </style>
 
     <style name="ToolBarStyle" parent="Widget.AppCompat.Toolbar">
 
     </style>
-
-
 
 
 </resources>

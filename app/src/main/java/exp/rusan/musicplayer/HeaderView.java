@@ -54,13 +54,22 @@ public class HeaderView extends LinearLayout {
         ButterKnife.bind(this);
     }
 
-    public void bindTo(String title) {
-        bindTo(title, "");
+
+    public void setTitle(String title) {
+        if (title == null) {
+            hideOrSetText(this.title, "<Unknown>");
+        } else {
+            hideOrSetText(this.title, title);
+        }
     }
 
-    public void bindTo(String title, String subTitle) {
-        hideOrSetText(this.title, title);
-        hideOrSetText(this.subTitle, subTitle);
+    public void setSubtitle(String subtitle) {
+        hideOrSetText(this.subTitle, subtitle);
+    }
+
+    public void setTitle(String title, String subtitle) {
+        setTitle(title);
+        setSubtitle(subtitle);
     }
 
     private void hideOrSetText(TextView tv, String text) {

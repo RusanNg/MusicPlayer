@@ -70,8 +70,9 @@ public class ArtistsRecyclerViewAdapter extends RecyclerView
         String strSubtitleAlbum;
         String strSubtitleTrack;
 
+        holder.ivArt.setImageDrawable(context.getResources().getDrawable(R.drawable
+                .ic_voice_black_24dp));
         if (artist.getArtUri() != null) {
-
             Glide.with(context).load(artist.getArtUri()).into(holder.ivArt);
         }
 
@@ -124,12 +125,12 @@ public class ArtistsRecyclerViewAdapter extends RecyclerView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.i(TAG, "onClick: artists itme onClick.");
+                    Log.i(TAG, "onClick: artists item onClick.");
 
                     if (pItemClickListener == null) {
                         Log.i(TAG, "onClick: pItemClickListener is null.");
                     } else {
-                        pItemClickListener.onItemClick(getAdapterPosition());
+                        pItemClickListener.onItemClick(getAdapterPosition(), v);
                     }
                 }
             });

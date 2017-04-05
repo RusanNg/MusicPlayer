@@ -18,7 +18,7 @@ public interface ITrackStoreModel {
 
     interface LoadDataCallback {
 
-        void onDataLoaded(List pData);
+        void onDataLoaded(Object pData);
 
         void onDataNotAvailable();
 
@@ -33,6 +33,12 @@ public interface ITrackStoreModel {
     void getArtists(LoadDataCallback pCallback);
 
     void getAlbums(LoadDataCallback pCallback);
+
+    void getArtistById(int pId, LoadDataCallback pCallback);
+
+    void getAlbumById(int pId, LoadDataCallback pCallback);
+
+    void getTrackById(int pId, LoadDataCallback pCallback);
 
 
 }

@@ -1,16 +1,14 @@
 package exp.rusan.musicplayer.presenter;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.ITracksPageContract;
 import exp.rusan.musicplayer.model.ITrackStoreModel;
-import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.model.TrackStore;
 import exp.rusan.musicplayer.model.contentLoader.TracksLoader;
 
@@ -54,7 +52,7 @@ public class TracksPresenter implements ITracksPageContract.ITracksPagePresenter
     private ITrackStoreModel.OnDataChangeListener listener = new ITrackStoreModel.OnDataChangeListener() {
         @Override
         public void onChange(List pData) {
-            reloadTracks(pData);
+            reloadTracks((List<Track>) pData);
         }
     };
 
@@ -68,8 +66,8 @@ public class TracksPresenter implements ITracksPageContract.ITracksPagePresenter
     public void loadTracks() {
         model.getTracks(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showTracks(pData);
+            public void onDataLoaded(Object pData) {
+                view.showTracks((List<Track>) pData);
             }
 
             @Override
@@ -85,8 +83,8 @@ public class TracksPresenter implements ITracksPageContract.ITracksPagePresenter
 
         model.getTracks(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showReloadTracks(pData);
+            public void onDataLoaded(Object pData) {
+                view.showReloadTracks((List<Track>) pData);
             }
 
             @Override

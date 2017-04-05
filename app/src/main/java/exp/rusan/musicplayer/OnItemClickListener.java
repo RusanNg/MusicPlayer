@@ -1,5 +1,7 @@
 package exp.rusan.musicplayer;
 
+import android.view.View;
+
 /**
  * Description: Listening item in recycler view.
  * <!--
@@ -13,5 +15,5 @@ package exp.rusan.musicplayer;
  */
 
 public interface OnItemClickListener {
-    void onItemClick(int position);
+    void onItemClick(int position, View v);
 }

@@ -9,4 +9,11 @@
     <string name="title">title</string>
     <string name="sub_title">sub title</string>
     <string name="artist_album">artist - album</string>
+
+    <string name="albums">&#160;Albums</string>
+    <string name="album">&#160;Album</string>
+
+    <string name="tracks">&#160;Tracks</string>
+    <string name="track">&#160;Track</string>
+    <string name="title_activity_base">BaseActivity</string>
 </resources>

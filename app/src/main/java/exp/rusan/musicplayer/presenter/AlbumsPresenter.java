@@ -53,8 +53,8 @@ public class AlbumsPresenter implements IAlbumsPageContract.IAblumsPagePresenter
     public void loadAlbums() {
         model.getAlbums(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showAlbums(pData);
+            public void onDataLoaded(Object pData) {
+                view.showAlbums((List<Album>) pData);
             }
 
             @Override
@@ -68,8 +68,8 @@ public class AlbumsPresenter implements IAlbumsPageContract.IAblumsPagePresenter
     public void reloadAlbums(List<Album> pAlbums) {
         model.getAlbums(new ITrackStoreModel.LoadDataCallback() {
             @Override
-            public void onDataLoaded(List pData) {
-                view.showReloadAlbums(pData);
+            public void onDataLoaded(Object pData) {
+                view.showReloadAlbums((List<Album>) pData);
             }
 
             @Override

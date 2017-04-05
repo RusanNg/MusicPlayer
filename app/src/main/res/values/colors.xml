@@ -4,11 +4,13 @@
     <color name="colorPrimaryDark">#ff141518</color>
     <color name="colorAccent">#ff33a3dc</color>
     <color name="colorAppBackground">#ff1d2027</color>
+    <color name="colorTransparent">#00000000</color>
 
     <color name="colorSubtitle">#ff8e9093</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorRvSongs">#1d2027</color>
     <color name="colorAlbumsItem">#2c2f38</color>
+
 
 
 </resources>
