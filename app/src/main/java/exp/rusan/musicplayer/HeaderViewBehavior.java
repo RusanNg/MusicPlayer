@@ -110,4 +110,5 @@ public class HeaderViewBehavior extends CoordinatorLayout.Behavior<HeaderView> {
         }
         return result;
     }
+
 }

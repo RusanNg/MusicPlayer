@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -13,7 +14,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
 import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
+import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
 
 /**
  * Description:
@@ -129,6 +130,11 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
                 ivArtistArt.setTransitionName("art_artists_to_detail");
              }
         }
+
+        rvList.setLayoutManager(new LinearLayoutManager(this));
+        rvList.setHasFixedSize(true);
+        rvList.setAdapter(new ArtistDetailRvAdapter());
+
     }
 
 
@@ -158,7 +164,7 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
 
     @Override
     public void showArtist(Artist pArtist) {
-        Logger.i("here!!!");
+//        Logger.i("here!!!");
         if (pArtist.getArtUri() != null) {
             Glide.with(getApplicationContext()).load(pArtist.getArtUri()).into(ivArtistArt);
         }
