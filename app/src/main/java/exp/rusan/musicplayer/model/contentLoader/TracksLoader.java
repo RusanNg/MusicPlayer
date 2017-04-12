@@ -8,8 +8,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +67,7 @@ public class TracksLoader {
 
         loader();
 
-        Logger.i(TAG, "TracksLoader: : " + tracksUri);
+//        Logger.i(TAG, "TracksLoader: : " + tracksUri);
 
     }
 
@@ -137,9 +135,11 @@ public class TracksLoader {
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
 
-            Log.i(TAG, "onChange: Music store have changed.");
+//            Log.i(TAG, "onChange: Music store have changed.");
+
+            TrackStore.getInstance().emptyTracks();
             loader();
-            listener.onChange(tracks);
+            listener.onChange();
 
         }
 

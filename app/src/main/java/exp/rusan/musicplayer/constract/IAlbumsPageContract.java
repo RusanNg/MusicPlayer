@@ -21,7 +21,7 @@ import exp.rusan.musicplayer.bean.Album;
 
 public interface IAlbumsPageContract {
 
-    interface IAblumsPageView extends IBaseView<IAblumsPagePresenter> {
+    interface IAblumsPageView extends IBaseView<IAlbumsPagePresenter> {
 
         void showAlbums(List<Album> pAlbums);
 
@@ -29,11 +29,11 @@ public interface IAlbumsPageContract {
 
     }
 
-    interface IAblumsPagePresenter extends IBasePresenter {
+    interface IAlbumsPagePresenter extends IBasePresenter {
 
         void loadAlbums();
 
-        void reloadAlbums(List<Album> pAlbums);
+        void reloadAlbums();
 
     }
 

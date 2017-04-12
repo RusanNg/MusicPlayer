@@ -8,8 +8,6 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +40,8 @@ public class ArtistsLoader {
 
     private Uri artistsUri = MediaStore.Audio.Artists.EXTERNAL_CONTENT_URI;
 
+    private Uri tracksUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
     private String[] projection = {
             MediaStore.Audio.Artists._ID,
             MediaStore.Audio.Artists.ARTIST,
@@ -68,7 +68,7 @@ public class ArtistsLoader {
     }
 
     void regigisterContentObserver() {
-        context.getContentResolver().registerContentObserver(artistsUri, false, contentObserver);
+        context.getContentResolver().registerContentObserver(tracksUri, false, contentObserver);
     }
 
     private void loader() {
@@ -97,8 +97,6 @@ public class ArtistsLoader {
 
                 Album a = TrackStore.getInstance().getAlbumByArtistId(id);
 
-                Logger.i(String.valueOf(id));
-
                 TrackStore.getInstance().addArtist(new Artist.Builder(id, title).numTracks
                         (numTracks).numAlbums(numAlbums).artUri(a.getArtUri()).build());
 
@@ -107,7 +105,7 @@ public class ArtistsLoader {
 
         cursor.close();
 
-        Log.i(TAG, "loader: artists size : " + artists.size());
+//        Log.i(TAG, "loader: artists size : " + artists.size());
     }
 
 
@@ -132,8 +130,9 @@ public class ArtistsLoader {
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
 
+            TrackStore.getInstance().emptyArtists();
             loader();
-            listener.onChange(artists);
+            listener.onChange();
 
         }
     }

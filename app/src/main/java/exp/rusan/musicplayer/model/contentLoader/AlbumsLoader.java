@@ -39,6 +39,8 @@ public class AlbumsLoader {
 
     private Uri albumsUrl = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
 
+    private Uri tracksUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+
     private String[] projection = {
 
             MediaStore.Audio.Albums._ID,
@@ -68,7 +70,7 @@ public class AlbumsLoader {
      * Register content observer.
      */
     private void registerAlbumsContentObserver() {
-        context.getContentResolver().registerContentObserver(albumsUrl, false, albumsContentObserver);
+        context.getContentResolver().registerContentObserver(tracksUri, false, albumsContentObserver);
     }
 
     private void loader() {
@@ -128,10 +130,11 @@ public class AlbumsLoader {
         public void onChange(boolean selfChange, Uri uri) {
             super.onChange(selfChange, uri);
 
-            Log.i(TAG, "onChange: Albums data chenged!!!");
+//            Logger.i(TAG, "onChange: Albums data chenged!!!");
 
+            TrackStore.getInstance().emptyAlbums();
             loader();
-            listener.onChange(albums);
+            listener.onChange();
         }
     }
 

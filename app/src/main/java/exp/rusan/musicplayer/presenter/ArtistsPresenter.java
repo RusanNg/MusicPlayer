@@ -49,8 +49,8 @@ public class ArtistsPresenter implements IArtistsPageContract.IArtistsPresenter 
            .OnDataChangeListener
            () {
         @Override
-        public void onChange(List pData) {
-            reloadArtists(pData);
+        public void onChange() {
+            reloadArtists();
         }
     };
 
@@ -73,7 +73,7 @@ public class ArtistsPresenter implements IArtistsPageContract.IArtistsPresenter 
     }
 
     @Override
-    public void reloadArtists(List<Artist> pArtists) {
+    public void reloadArtists() {
         model.getArtists(new ITrackStoreModel.LoadDataCallback() {
             @Override
             public void onDataLoaded(Object pData) {

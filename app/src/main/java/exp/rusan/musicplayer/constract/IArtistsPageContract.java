@@ -24,7 +24,7 @@ public interface IArtistsPageContract {
 
         void loadArtists();
 
-        void reloadArtists(List<Artist> pArtists);
+        void reloadArtists();
 
     }
 

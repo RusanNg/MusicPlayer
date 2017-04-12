@@ -51,8 +51,8 @@ public class TracksPresenter implements ITracksPageContract.ITracksPagePresenter
 
     private ITrackStoreModel.OnDataChangeListener listener = new ITrackStoreModel.OnDataChangeListener() {
         @Override
-        public void onChange(List pData) {
-            reloadTracks((List<Track>) pData);
+        public void onChange() {
+            reloadTracks();
         }
     };
 
@@ -78,8 +78,8 @@ public class TracksPresenter implements ITracksPageContract.ITracksPagePresenter
     }
 
     @Override
-    public void reloadTracks(List<Track> pTracks) {
-        Logger.i("Reload Tracks!!!");
+    public void reloadTracks() {
+//        Logger.i("Reload Tracks!!!");
 
         model.getTracks(new ITrackStoreModel.LoadDataCallback() {
             @Override

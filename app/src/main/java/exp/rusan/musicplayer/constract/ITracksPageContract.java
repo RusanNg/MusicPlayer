@@ -36,7 +36,7 @@ public interface ITracksPageContract {
 
         void loadTracks();
 
-        void reloadTracks(List<Track> pTracks);
+        void reloadTracks();
 
     }
 }

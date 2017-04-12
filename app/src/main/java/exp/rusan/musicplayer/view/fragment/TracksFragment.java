@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import exp.rusan.musicplayer.R;
@@ -101,7 +99,7 @@ public class TracksFragment extends Fragment implements ITracksPageContract.ITra
 
     @Override
     public void showTracks(List<Track> pTracks) {
-        Logger.i(TAG, "Tracks num : " + pTracks.size());
+//        Logger.i(TAG, "Tracks num : " + pTracks.size());
         tracksRecyclerViewAdapter.setTracks(pTracks);
     }
 

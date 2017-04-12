@@ -1,7 +1,5 @@
 package exp.rusan.musicplayer.model;
 
-import java.util.List;
-
 /**
  * Description:
  * <!--
@@ -25,7 +23,7 @@ public interface ITrackStoreModel {
     }
 
     interface OnDataChangeListener {
-        void onChange(List pData);
+        void onChange();
     }
 
     void getTracks(LoadDataCallback pCallback);

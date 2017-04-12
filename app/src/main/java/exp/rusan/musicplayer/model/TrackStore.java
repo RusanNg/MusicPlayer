@@ -1,7 +1,5 @@
 package exp.rusan.musicplayer.model;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +51,7 @@ public class TrackStore implements ITrackStoreModel {
 
 
 
-    public List<Track> getTracks() {
+    private List<Track> getTracks() {
         return tracks;
     }
 
@@ -61,7 +59,7 @@ public class TrackStore implements ITrackStoreModel {
         tracks = pTracks;
     }
 
-    public List<Artist> getArtists() {
+    private List<Artist> getArtists() {
         return artists;
     }
 
@@ -69,7 +67,7 @@ public class TrackStore implements ITrackStoreModel {
         artists = pArtists;
     }
 
-    public List<Album> getAlbums() {
+    private List<Album> getAlbums() {
         return albums;
     }
 
@@ -141,10 +139,6 @@ public class TrackStore implements ITrackStoreModel {
         return album;
     }
 
-    public void listCleaner(List pList) {
-        pList.clear();
-    }
-
     private void getDataResults(Object pData, LoadDataCallback pCallback) {
 
         if (pData != null) {
@@ -153,7 +147,6 @@ public class TrackStore implements ITrackStoreModel {
             pCallback.onDataNotAvailable();
         }
     }
-
 
     @Override
     public void getTracks(LoadDataCallback pCallback) {
@@ -186,5 +179,23 @@ public class TrackStore implements ITrackStoreModel {
         getDataResults(getTrackById(pId), pCallback);
     }
 
+
+
+
+    public void emptyTracks() {
+        empryList(tracks);
+    }
+
+    public void emptyArtists() {
+        empryList(artists);
+    }
+
+    public void emptyAlbums() {
+        empryList(albums);
+    }
+
+    public void empryList(List pList) {
+        pList.clear();
+    }
 
 }

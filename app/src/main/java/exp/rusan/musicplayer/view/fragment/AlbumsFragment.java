@@ -36,7 +36,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
 
     private final String TAG = this.getClass().getSimpleName();
 
-    private IAlbumsPageContract.IAblumsPagePresenter presenter;
+    private IAlbumsPageContract.IAlbumsPagePresenter presenter;
 
     private AlbumsRecyclerViewAdapter adapter;
 
@@ -103,11 +103,14 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
 
     @Override
     public void showReloadAlbums(List<Album> pAlbums) {
-        adapter.setAlbums(pAlbums);
+
+        if (adapter != null) {
+            adapter.setAlbums(pAlbums);
+        }
     }
 
     @Override
-    public void setPresenter(IAlbumsPageContract.IAblumsPagePresenter pPresenter) {
+    public void setPresenter(IAlbumsPageContract.IAlbumsPagePresenter pPresenter) {
         this.presenter = pPresenter;
     }
 }

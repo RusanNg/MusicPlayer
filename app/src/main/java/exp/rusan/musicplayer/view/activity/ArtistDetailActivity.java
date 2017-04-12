@@ -122,10 +122,12 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
             isHideToolbarView = !isHideToolbarView;
         }
 
-        if (percentage >= 0.5) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (percentage >= 0.5) {
                 ivArtistArt.setTransitionName(null);
-            }
+            } else {
+                ivArtistArt.setTransitionName("art_artists_to_detail");
+             }
         }
     }
 

@@ -24,7 +24,7 @@ import exp.rusan.musicplayer.model.contentLoader.AlbumsLoader;
  * -->
  */
 
-public class AlbumsPresenter implements IAlbumsPageContract.IAblumsPagePresenter {
+public class AlbumsPresenter implements IAlbumsPageContract.IAlbumsPagePresenter {
 
     private static final String TAG = "AlbumsPresenter";
 
@@ -44,8 +44,8 @@ public class AlbumsPresenter implements IAlbumsPageContract.IAblumsPagePresenter
 
     ITrackStoreModel.OnDataChangeListener listener = new ITrackStoreModel.OnDataChangeListener() {
         @Override
-        public void onChange(List pData) {
-            reloadAlbums(pData);
+        public void onChange() {
+            reloadAlbums();
         }
     };
 
@@ -65,11 +65,13 @@ public class AlbumsPresenter implements IAlbumsPageContract.IAblumsPagePresenter
     }
 
     @Override
-    public void reloadAlbums(List<Album> pAlbums) {
+    public void reloadAlbums() {
         model.getAlbums(new ITrackStoreModel.LoadDataCallback() {
             @Override
             public void onDataLoaded(Object pData) {
-                view.showReloadAlbums((List<Album>) pData);
+
+
+                view.showReloadAlbums( (List<Album>)pData );
             }
 
             @Override
