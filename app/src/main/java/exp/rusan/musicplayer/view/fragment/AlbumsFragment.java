@@ -12,12 +12,11 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import exp.rusan.musicplayer.constract.IAlbumsPageContract;
 import exp.rusan.musicplayer.OnItemClickListener;
-import exp.rusan.musicplayer.presenter.AlbumsPresenter;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvAlbumsDividerItemDecoration;
 import exp.rusan.musicplayer.bean.Album;
+import exp.rusan.musicplayer.constract.IAlbumsPageContract;
 import exp.rusan.musicplayer.view.adapter.AlbumsRecyclerViewAdapter;
 
 /**
@@ -56,7 +55,7 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.presenter = new AlbumsPresenter(getContext(), this);
+//        this.presenter = new AlbumsPresenter(getContext(), this);
     }
 
     @Override

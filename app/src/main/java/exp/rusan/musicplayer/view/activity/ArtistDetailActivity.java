@@ -20,9 +20,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import exp.rusan.musicplayer.Constant;
+import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.HeaderView;
 import exp.rusan.musicplayer.R;
+import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
+import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
 import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
 import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
@@ -69,6 +72,10 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
     @BindView(R.id.iv_artist_detail_artist_art)
     ImageView ivArtistArt;
 
+    ArtistDetailRvAdapter adapter;
+
+    List<DataTree<Album, Track>> dataTrees;
+
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +110,9 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
         rvList.setHasFixedSize(true);
-        rvList.setAdapter(new ArtistDetailRvAdapter());
+
+        adapter = new ArtistDetailRvAdapter(this);
+        rvList.setAdapter(adapter);
 
     }
 
@@ -111,6 +120,7 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
     protected void onResume() {
         super.onResume();
         presenter.start();
+
     }
 
     @Override
@@ -132,7 +142,7 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
                 ivArtistArt.setTransitionName(null);
             } else {
                 ivArtistArt.setTransitionName("art_artists_to_detail");
-             }
+            }
         }
 
     }
@@ -177,21 +187,11 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
         hvToolbar.setSubtitle(Constant.numAlbumsToString(getApplication(), pArtist.getNumAlbums()
         ) + " - " + Constant.numTracksToString(getApplication(), pArtist.getNumTracks()));
 
-
     }
 
     @Override
-    public void showAlbums(List pAlbums) {
-
+    public void showDataTrees(List<DataTree<Album, Track>> pDataTrees) {
+        adapter.setDataTrees(pDataTrees);
     }
 
-    @Override
-    public void showTracks(List pTracks) {
-
-    }
-
-    @Override
-    public void hideTracks() {
-
-    }
 }

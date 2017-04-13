@@ -1,5 +1,6 @@
 package exp.rusan.musicplayer.view.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,14 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import exp.rusan.musicplayer.DataTree;
-import exp.rusan.musicplayer.ForTest;
 import exp.rusan.musicplayer.R;
+import exp.rusan.musicplayer.bean.Album;
+import exp.rusan.musicplayer.bean.Track;
 
 /**
  * Description:
@@ -33,16 +38,25 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     private List<Boolean> groupItemStatus;
 
-    private List<DataTree<String, String>> dataTrees;
+    private List<DataTree<Album, Track>> dataTrees;
 
-    public ArtistDetailRvAdapter() {
+    private Context context;
 
+    public ArtistDetailRvAdapter(Context pContext) {
+
+        this.context = pContext;
+        dataTrees = new ArrayList<>();
         groupItemStatus = new ArrayList<>();
 
-        dataTrees = ForTest.getDataTreeList();
         initGroupItemStatus(groupItemStatus);
 
+    }
 
+    public void setDataTrees(List<DataTree<Album, Track>> dt) {
+//        Logger.i(dt.size() + " ");
+        this.dataTrees = dt;
+        initGroupItemStatus(groupItemStatus);
+        notifyDataSetChanged();
     }
 
     private void initGroupItemStatus(List l) {
@@ -80,13 +94,19 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         Logger.i(itemStatus.getGroupItemIndex() + " ");
 
-        final DataTree<String, String> dt = dataTrees.get(itemStatus.getGroupItemIndex());
+        final DataTree<Album, Track> dt = dataTrees.get(itemStatus.getGroupItemIndex());
 
         if ( itemStatus.getViewType() == ItemStatus.VIEW_TYPE_GROUPITEM ) {
 
             final GroupItemViewHolder groupItemVh = (GroupItemViewHolder) holder;
 
-            groupItemVh.tvAlbumTitle.setText(dt.getGroupItem());
+            if (dt.getGroupItem().getArtUri() != null) {
+                Glide.with(context).load(dt.getGroupItem().getArtUri()).into(groupItemVh.ivAlbumArt);
+            }
+
+            groupItemVh.tvAlbumTitle.setText(dt.getGroupItem().getTitle());
+
+            groupItemVh.tvNumTracks.setText(dt.getGroupItem().getNumTracks() + "tracks");
 
             groupItemVh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -116,7 +136,18 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             SubItemViewHolder subItemVh = (SubItemViewHolder) holder;
 
-            subItemVh.tvTrackTitle.setText(dt.getSubItems().get(itemStatus.getSubItemIndex()));
+            subItemVh.tvTrackTitle.setText(dt.getSubItems().get(itemStatus.getSubItemIndex()).getTitle());
+
+            if (dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration() >= 72000000) {
+
+                subItemVh.tvTrackDuration.setText(new SimpleDateFormat("hh:mm:ss").format(new Date
+                        (dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration())));
+
+            } else {
+
+                subItemVh.tvTrackDuration.setText(new SimpleDateFormat("mm:ss").format(new Date(dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration())));
+
+            }
 
         }
 
@@ -127,6 +158,10 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemCount() {
 
         int itemCount = 0;
+
+        if (groupItemStatus.size() == 0) {
+            return 0;
+        }
 
         for (int i = 0; i < dataTrees.size(); i++) {
 

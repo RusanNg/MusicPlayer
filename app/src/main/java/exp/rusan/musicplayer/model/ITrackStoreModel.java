@@ -38,5 +38,8 @@ public interface ITrackStoreModel {
 
     void getTrackById(int pId, LoadDataCallback pCallback);
 
+    void getAlbumsByArtistId(int pId, LoadDataCallback pCallback);
+
+    void getTracksByAlbumId(int pId, LoadDataCallback pCallback);
 
 }
