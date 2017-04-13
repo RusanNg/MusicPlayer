@@ -101,6 +101,10 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
+        rvList.setLayoutManager(new LinearLayoutManager(this));
+        rvList.setHasFixedSize(true);
+        rvList.setAdapter(new ArtistDetailRvAdapter());
+
     }
 
     @Override
@@ -130,10 +134,6 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
                 ivArtistArt.setTransitionName("art_artists_to_detail");
              }
         }
-
-        rvList.setLayoutManager(new LinearLayoutManager(this));
-        rvList.setHasFixedSize(true);
-        rvList.setAdapter(new ArtistDetailRvAdapter());
 
     }
 

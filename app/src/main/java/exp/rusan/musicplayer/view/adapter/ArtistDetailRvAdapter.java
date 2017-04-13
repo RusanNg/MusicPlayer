@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +78,8 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         final ItemStatus itemStatus = getItemStatusByPosition(position);
 
+        Logger.i(itemStatus.getGroupItemIndex() + " ");
+
         final DataTree<String, String> dt = dataTrees.get(itemStatus.getGroupItemIndex());
 
         if ( itemStatus.getViewType() == ItemStatus.VIEW_TYPE_GROUPITEM ) {
@@ -94,13 +98,14 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                         groupItemStatus.set(groupItemIndex, true);
 
-                        notifyItemRangeInserted(groupItemIndex + 1, dt.getSubItems().size());
+                        notifyItemRangeInserted(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
+                                ().size());
 
                     } else {
 
                         groupItemStatus.set(groupItemIndex, false);
 
-                        notifyItemRangeRemoved(groupItemIndex + 1, dt.getSubItems().size());
+                        notifyItemRangeRemoved(groupItemVh.getAdapterPosition() + 1, dt.getSubItems().size());
 
                     }
 
@@ -149,7 +154,7 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         int count = 0;
         int i = 0;
 
-        for ( i = 0; i < groupItemStatus.size(); i++ ) {
+        for (i = 0; i < groupItemStatus.size(); i++ ) {
 
             if (count == position) {
 
@@ -159,7 +164,7 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             } else if (count > position) {
 
                 itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
-                itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i).getSubItems().size() ) - 1);
+                itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i).getSubItems().size() ) );
                 break;
 
             }
@@ -174,10 +179,16 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             }
 
-
         }
 
-        itemStatus.setGroupItemIndex(i);
+        if (i >= groupItemStatus.size()) {
+            itemStatus.setGroupItemIndex(i - 1);
+            itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
+            itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i - 1).getSubItems().size
+                    () ) );
+        } else {
+            itemStatus.setGroupItemIndex(i);
+        }
 
         return itemStatus;
     }

@@ -62,14 +62,11 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            >
 
             <Button
                 android:id="@+id/btn_artist_detail_play_all"
@@ -89,8 +86,6 @@
             </android.support.v7.widget.RecyclerView>
 
         </RelativeLayout>
-
-    </android.support.v4.widget.NestedScrollView>
 
     <include
         android:id="@+id/hv_artist_detail_ctl"
