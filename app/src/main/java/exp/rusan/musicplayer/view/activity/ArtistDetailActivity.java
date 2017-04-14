@@ -23,6 +23,7 @@ import exp.rusan.musicplayer.Constant;
 import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.HeaderView;
 import exp.rusan.musicplayer.R;
+import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
 import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.bean.Track;
@@ -109,7 +110,10 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
         }
 
         rvList.setLayoutManager(new LinearLayoutManager(this));
+
         rvList.setHasFixedSize(true);
+        rvList.addItemDecoration(new RvTracksDividerItemDecoration(this, LinearLayoutManager
+                .VERTICAL));
 
         adapter = new ArtistDetailRvAdapter(this);
         rvList.setAdapter(adapter);

@@ -1,12 +1,15 @@
 package exp.rusan.musicplayer.view.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
@@ -116,7 +119,11 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             groupItemVh.tvAlbumTitle.setText(dt.getGroupItem().getTitle());
 
-            groupItemVh.tvNumTracks.setText(dt.getGroupItem().getNumTracks() + "tracks");
+            groupItemVh.tvNumTracks.setText(dt.getGroupItem().getNumTracks() + " tracks");
+
+            final ImageView ivExpand = groupItemVh.ivExpand;
+
+            ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable.anim_expand));
 
             groupItemVh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,6 +133,13 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     if ( !groupItemStatus.get(groupItemIndex) ) {
 
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ( (AnimatedVectorDrawable)ivExpand.getDrawable() ).start();
+                        }
+
+                        ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                                    .anim_shrink));
+
                         groupItemStatus.set(groupItemIndex, true);
                         notifyItemRangeInserted(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
                                 ().size());
@@ -134,11 +148,16 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
                     } else {
 
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                            ( (AnimatedVectorDrawable)ivExpand.getDrawable() ).start();
+                        }
+
+                        ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                                .anim_expand));
+
                         groupItemStatus.set(groupItemIndex, false);
                         notifyItemRangeRemoved(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
                                 ().size());
-
-
 
                     }
 
@@ -161,6 +180,14 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 subItemVh.tvTrackDuration.setText(new SimpleDateFormat("mm:ss").format(new Date(dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration())));
 
             }
+
+            subItemVh.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, dt.getSubItems().get(itemStatus.getSubItemIndex())
+                            .getTitle(), Toast.LENGTH_SHORT).show();
+                }
+            });
 
         }
 
@@ -247,12 +274,14 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         private ImageView ivAlbumArt;
         private TextView tvAlbumTitle;
         private TextView tvNumTracks;
+        private ImageView ivExpand;
 
         public GroupItemViewHolder(View itemView) {
             super(itemView);
             ivAlbumArt = (ImageView) itemView.findViewById(R.id.iv_artist_detail_album_art);
             tvAlbumTitle = (TextView) itemView.findViewById(R.id.tv_artist_detail_album_title);
             tvNumTracks = (TextView) itemView.findViewById(R.id.tv_artist_detail_album_numtracks);
+            ivExpand = (ImageView) itemView.findViewById(R.id.iv_artist_detail_album_extend);
         }
     }
 

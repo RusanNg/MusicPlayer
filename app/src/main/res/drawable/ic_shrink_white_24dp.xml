@@ -1,0 +1,23 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+        android:width="24dp"
+        android:height="24dp"
+        android:viewportWidth="24.0"
+        android:viewportHeight="24.0">
+
+    <group
+        android:name="rotateGroup"
+        android:pivotX="12"
+        android:pivotY="12"
+        >
+        <path
+            android:name="shrink"
+            android:fillColor="@color/colorWhite"
+            android:pathData="
+        M 10,6
+        L 8.59,7.41 13.17,12 13.17,12
+        l -4.58,4.59
+        L 10,18
+        l 0,0 6,-6z"/>
+    </group>
+
+</vector>
