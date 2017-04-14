@@ -1,7 +1,5 @@
 package exp.rusan.musicplayer.model;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -184,10 +182,6 @@ public class TrackStore implements ITrackStoreModel {
     public void getAlbumsByArtistId(int pId, LoadDataCallback pCallback) {
 
         List<Album> as = new ArrayList<>();
-
-        Logger.i( albums.size() + "");
-//        Logger.i( tracks.size() + "");
-//        Logger.i( artists.size() + "");
 
         for (Album a : albums) {
             if (a.getArtistId() == pId) {

@@ -54,6 +54,7 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     public void setDataTrees(List<DataTree<Album, Track>> dt) {
 //        Logger.i(dt.size() + " ");
+
         this.dataTrees = dt;
         initGroupItemStatus(groupItemStatus);
         notifyDataSetChanged();
@@ -92,9 +93,18 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
         final ItemStatus itemStatus = getItemStatusByPosition(position);
 
-        Logger.i(itemStatus.getGroupItemIndex() + " ");
+//        Logger.i("position: " + position);
+
+//        Logger.i(itemStatus.getGroupItemIndex() + " ");
 
         final DataTree<Album, Track> dt = dataTrees.get(itemStatus.getGroupItemIndex());
+//
+        Logger.i("dt.album ID " + dt.getGroupItem().getArtistId() + ", Title " + dt.getGroupItem
+                ().getTitle());
+
+        for (Track t : dt.getSubItems()) {
+            Logger.i(t.getTitle());
+        }
 
         if ( itemStatus.getViewType() == ItemStatus.VIEW_TYPE_GROUPITEM ) {
 
@@ -117,15 +127,18 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                     if ( !groupItemStatus.get(groupItemIndex) ) {
 
                         groupItemStatus.set(groupItemIndex, true);
-
                         notifyItemRangeInserted(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
                                 ().size());
+
+
 
                     } else {
 
                         groupItemStatus.set(groupItemIndex, false);
+                        notifyItemRangeRemoved(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
+                                ().size());
 
-                        notifyItemRangeRemoved(groupItemVh.getAdapterPosition() + 1, dt.getSubItems().size());
+
 
                     }
 
@@ -194,25 +207,27 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (count == position) {
 
                 itemStatus.setViewType(ItemStatus.VIEW_TYPE_GROUPITEM);
+                itemStatus.setGroupItemIndex(i);
                 break;
 
             } else if (count > position) {
 
                 itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
-                itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i).getSubItems().size() ) );
+                itemStatus.setGroupItemIndex(i - 1);
+                itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i - 1).getSubItems
+                        ().size() ) );
                 break;
 
             }
 
+            count++;
+
             if (groupItemStatus.get(i)) {
 
-                count += dataTrees.get(i).getSubItems().size() + 1;
-
-            } else {
-
-                count++;
+                count += dataTrees.get(i).getSubItems().size();
 
             }
+
 
         }
 
@@ -221,8 +236,6 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
             itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i - 1).getSubItems().size
                     () ) );
-        } else {
-            itemStatus.setGroupItemIndex(i);
         }
 
         return itemStatus;
