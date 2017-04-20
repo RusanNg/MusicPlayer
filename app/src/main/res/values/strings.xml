@@ -16,4 +16,7 @@
     <string name="tracks">&#160;Tracks</string>
     <string name="track">&#160;Track</string>
     <string name="title_activity_base">BaseActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
