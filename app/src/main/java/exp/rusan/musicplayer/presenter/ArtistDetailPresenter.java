@@ -3,13 +3,13 @@ package exp.rusan.musicplayer.presenter;
 import java.util.ArrayList;
 import java.util.List;
 
-import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
 import exp.rusan.musicplayer.model.ITrackStoreModel;
 import exp.rusan.musicplayer.model.TrackStore;
+import exp.rusan.musicplayer.Util.SecondaryListAdapter;
 
 /**
  * Created by Rusan on 2017/3/27.
@@ -101,7 +101,7 @@ public class ArtistDetailPresenter implements IArtistDetailConstract.IArtistDeta
 
     public List dataTreesBuilder(int pArtistId) {
 
-        List<DataTree<Album, Track>> dataTrees = new ArrayList<>();
+        List<SecondaryListAdapter.DataTree<Album, Track>> dataTrees = new ArrayList<>();
 
         List<Album> as = getAlbums(pArtistId);
 
@@ -109,7 +109,7 @@ public class ArtistDetailPresenter implements IArtistDetailConstract.IArtistDeta
 
         for (Album a : as){
 
-            dataTrees.add(new DataTree<>(a, getTracks(a.getId())));
+            dataTrees.add(new SecondaryListAdapter.DataTree<>(a, getTracks(a.getId())));
 
         }
 

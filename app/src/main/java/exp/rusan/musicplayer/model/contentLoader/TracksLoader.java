@@ -52,8 +52,7 @@ public class TracksLoader {
 
     };
 
-    private String where = "mime_type in ('audio/mpeg', 'audio/x-ms-wma') and TITLE" +
-            " <> 'audio' and is_music > 0";
+    private String where = "is_music > 0";
 
 
     private String sortOrder = MediaStore.Audio.Media.TITLE;

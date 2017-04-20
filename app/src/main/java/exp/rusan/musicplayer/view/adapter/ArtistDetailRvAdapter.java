@@ -12,260 +12,135 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.orhanobut.logger.Logger;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.R;
+import exp.rusan.musicplayer.Util.SecondaryListAdapter;
 import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Track;
 
 /**
- * Description:
- * <!--
- * Author: Rusan
- * Date: 2017/3/23
- * Version: 0.0.1
- * ---------------------------------------------
- * History:
- * <p>
- * -->
+ * Created by Rusan on 2017/4/18.
  */
 
-public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-
-    private List<Boolean> groupItemStatus;
-
-    private List<DataTree<Album, Track>> dataTrees;
+public class ArtistDetailRvAdapter extends SecondaryListAdapter<ArtistDetailRvAdapter
+        .GroupItemViewHolder, ArtistDetailRvAdapter.SubItemViewHolder> {
 
     private Context context;
 
-    public ArtistDetailRvAdapter(Context pContext) {
+    private List<DataTree<Album, Track>> dataTrees;
 
-        this.context = pContext;
-        dataTrees = new ArrayList<>();
-        groupItemStatus = new ArrayList<>();
-
-        initGroupItemStatus(groupItemStatus);
-
+    public ArtistDetailRvAdapter(Context context) {
+        this.context = context;
     }
 
-    public void setDataTrees(List<DataTree<Album, Track>> dt) {
-//        Logger.i(dt.size() + " ");
-
-        this.dataTrees = dt;
-        initGroupItemStatus(groupItemStatus);
-        notifyDataSetChanged();
+    public void setAtDataTrees(List pDataTrees) {
+        this.dataTrees = pDataTrees;
+        notifyNewData(pDataTrees);
     }
 
-    private void initGroupItemStatus(List l) {
-        for (int i = 0; i < dataTrees.size(); i++) {
-            l.add(false);
-        }
+
+    @Override
+    public RecyclerView.ViewHolder groupItemViewHolder(ViewGroup parent) {
+
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .item_artist_detail_album, parent, false);
+
+        return new GroupItemViewHolder(v);
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder subItemViewHolder(ViewGroup parent) {
 
-        View v;
-        RecyclerView.ViewHolder viewHolder = null;
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout
+                .item_artist_detail_track, parent, false);
 
-        if (viewType == ItemStatus.VIEW_TYPE_GROUPITEM) {
-
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout
-                    .item_artist_detail_album, parent, false);
-            viewHolder = new GroupItemViewHolder(v);
-
-        } else if (viewType == ItemStatus.VIEW_TYPE_SUBITEM) {
-
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout
-                    .item_artist_detail_track, parent, false);
-            viewHolder = new SubItemViewHolder(v);
-        }
-
-        return viewHolder;
+        return new SubItemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onGroupItemBindViewHolder(RecyclerView.ViewHolder holder, int groupItemIndex) {
 
-        final ItemStatus itemStatus = getItemStatusByPosition(position);
+        final GroupItemViewHolder groupItemVh = (GroupItemViewHolder) holder;
+        DataTree<Album, Track> dt = dataTrees.get(groupItemIndex);
 
-//        Logger.i("position: " + position);
-
-//        Logger.i(itemStatus.getGroupItemIndex() + " ");
-
-        final DataTree<Album, Track> dt = dataTrees.get(itemStatus.getGroupItemIndex());
-//
-        Logger.i("dt.album ID " + dt.getGroupItem().getArtistId() + ", Title " + dt.getGroupItem
-                ().getTitle());
-
-        for (Track t : dt.getSubItems()) {
-            Logger.i(t.getTitle());
+        if (dt.getGroupItem().getArtUri() != null) {
+            Glide.with(context).load(dt.getGroupItem().getArtUri()).into(groupItemVh.ivAlbumArt);
         }
 
-        if ( itemStatus.getViewType() == ItemStatus.VIEW_TYPE_GROUPITEM ) {
+        groupItemVh.tvAlbumTitle.setText(dt.getGroupItem().getTitle());
 
-            final GroupItemViewHolder groupItemVh = (GroupItemViewHolder) holder;
+        groupItemVh.tvNumTracks.setText(dt.getGroupItem().getNumTracks() + " tracks");
 
-            if (dt.getGroupItem().getArtUri() != null) {
-                Glide.with(context).load(dt.getGroupItem().getArtUri()).into(groupItemVh.ivAlbumArt);
-            }
+        groupItemVh.ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                .ic_shrink_white_24dp));
 
-            groupItemVh.tvAlbumTitle.setText(dt.getGroupItem().getTitle());
+    }
 
-            groupItemVh.tvNumTracks.setText(dt.getGroupItem().getNumTracks() + " tracks");
+    @Override
+    public void onSubItemBindViewHolder(RecyclerView.ViewHolder holder, int groupItemIndex, int
+            subItemIndex) {
 
-            final ImageView ivExpand = groupItemVh.ivExpand;
+        SubItemViewHolder subItemVh = (SubItemViewHolder) holder;
 
-            ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable.anim_expand));
+        DataTree<Album, Track> dt = dataTrees.get(groupItemIndex);
 
-            groupItemVh.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        subItemVh.tvTrackTitle.setText(dt.getSubItems().get(subItemIndex).getTitle());
 
-                    int groupItemIndex = itemStatus.getGroupItemIndex();
+        if (dt.getSubItems().get(subItemIndex).getDuration() >= 72000000) {
 
-                    if ( !groupItemStatus.get(groupItemIndex) ) {
+            subItemVh.tvTrackDuration.setText(new SimpleDateFormat("hh:mm:ss").format(new Date
+                    (dt.getSubItems().get(subItemIndex).getDuration())));
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            ( (AnimatedVectorDrawable)ivExpand.getDrawable() ).start();
-                        }
+        } else {
 
-                        ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
-                                    .anim_shrink));
+            subItemVh.tvTrackDuration.setText(new SimpleDateFormat("mm:ss").format(new Date(dt
+                    .getSubItems().get(subItemIndex).getDuration())));
 
-                        groupItemStatus.set(groupItemIndex, true);
-                        notifyItemRangeInserted(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
-                                ().size());
+        }
 
+    }
 
+    @Override
+    public void onGroupItemClick(Boolean isExpand, GroupItemViewHolder holder, int
+            groupItemIndex) {
 
-                    } else {
+        ImageView ivExpand = holder.ivExpand;
 
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            ( (AnimatedVectorDrawable)ivExpand.getDrawable() ).start();
-                        }
+        if (!isExpand) {
 
-                        ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
-                                .anim_expand));
+            ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                    .anim_expand));
 
-                        groupItemStatus.set(groupItemIndex, false);
-                        notifyItemRangeRemoved(groupItemVh.getAdapterPosition() + 1, dt.getSubItems
-                                ().size());
-
-                    }
-
-                }
-            });
-
-        } else if (itemStatus.getViewType() == ItemStatus.VIEW_TYPE_SUBITEM) {
-
-            SubItemViewHolder subItemVh = (SubItemViewHolder) holder;
-
-            subItemVh.tvTrackTitle.setText(dt.getSubItems().get(itemStatus.getSubItemIndex()).getTitle());
-
-            if (dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration() >= 72000000) {
-
-                subItemVh.tvTrackDuration.setText(new SimpleDateFormat("hh:mm:ss").format(new Date
-                        (dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration())));
-
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((AnimatedVectorDrawable) ivExpand.getDrawable()).start();
             } else {
-
-                subItemVh.tvTrackDuration.setText(new SimpleDateFormat("mm:ss").format(new Date(dt.getSubItems().get(itemStatus.getSubItemIndex()).getDuration())));
-
+                ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                        .anim_shrink));
             }
 
-            subItemVh.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, dt.getSubItems().get(itemStatus.getSubItemIndex())
-                            .getTitle(), Toast.LENGTH_SHORT).show();
-                }
-            });
+        } else {
 
-        }
+            ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                    .anim_shrink));
 
-
-    }
-
-    @Override
-    public int getItemCount() {
-
-        int itemCount = 0;
-
-        if (groupItemStatus.size() == 0) {
-            return 0;
-        }
-
-        for (int i = 0; i < dataTrees.size(); i++) {
-
-            if (groupItemStatus.get(i)) {
-                itemCount += dataTrees.get(i).getSubItems().size() + 1;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ( (AnimatedVectorDrawable)ivExpand.getDrawable() ).start();
             } else {
-                itemCount++;
+                ivExpand.setImageDrawable(context.getResources().getDrawable(R.drawable
+                        .anim_expand));
             }
 
         }
 
-        return itemCount;
     }
-
 
     @Override
-    public int getItemViewType(int position) {
-        return getItemStatusByPosition(position).getViewType();
-    }
-
-    private ItemStatus getItemStatusByPosition(int position) {
-
-        ItemStatus itemStatus = new ItemStatus();
-
-        int count = 0;
-        int i = 0;
-
-        for (i = 0; i < groupItemStatus.size(); i++ ) {
-
-            if (count == position) {
-
-                itemStatus.setViewType(ItemStatus.VIEW_TYPE_GROUPITEM);
-                itemStatus.setGroupItemIndex(i);
-                break;
-
-            } else if (count > position) {
-
-                itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
-                itemStatus.setGroupItemIndex(i - 1);
-                itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i - 1).getSubItems
-                        ().size() ) );
-                break;
-
-            }
-
-            count++;
-
-            if (groupItemStatus.get(i)) {
-
-                count += dataTrees.get(i).getSubItems().size();
-
-            }
-
-
-        }
-
-        if (i >= groupItemStatus.size()) {
-            itemStatus.setGroupItemIndex(i - 1);
-            itemStatus.setViewType(ItemStatus.VIEW_TYPE_SUBITEM);
-            itemStatus.setSubItemIndex(position - ( count - dataTrees.get(i - 1).getSubItems().size
-                    () ) );
-        }
-
-        return itemStatus;
+    public void onSubItemClick(SubItemViewHolder holder, int subItemIndex) {
+        Toast.makeText(context, holder.tvTrackTitle.getText(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -282,6 +157,9 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvAlbumTitle = (TextView) itemView.findViewById(R.id.tv_artist_detail_album_title);
             tvNumTracks = (TextView) itemView.findViewById(R.id.tv_artist_detail_album_numtracks);
             ivExpand = (ImageView) itemView.findViewById(R.id.iv_artist_detail_album_extend);
+
+            ivExpand.setImageDrawable(itemView.getContext().getResources().getDrawable(R.drawable
+                    .anim_expand));
         }
     }
 
@@ -296,44 +174,4 @@ public class ArtistDetailRvAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             tvTrackDuration = (TextView) itemView.findViewById(R.id.tv_artist_detail_track_duration);
         }
     }
-
-    private static class ItemStatus {
-
-        public static final int VIEW_TYPE_GROUPITEM = 0;
-        public static final int VIEW_TYPE_SUBITEM = 1;
-
-        private int viewType;
-        private int groupItemIndex = 0;
-        private int subItemIndex = -1;
-
-        public ItemStatus() {
-        }
-
-        public int getViewType() {
-            return viewType;
-        }
-
-        public void setViewType(int viewType) {
-            this.viewType = viewType;
-        }
-
-        public int getGroupItemIndex() {
-            return groupItemIndex;
-        }
-
-        public void setGroupItemIndex(int groupItemIndex) {
-            this.groupItemIndex = groupItemIndex;
-        }
-
-        public int getSubItemIndex() {
-            return subItemIndex;
-        }
-
-        public void setSubItemIndex(int subItemIndex) {
-            this.subItemIndex = subItemIndex;
-        }
-    }
-
-
-
 }

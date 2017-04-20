@@ -20,7 +20,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import exp.rusan.musicplayer.Constant;
-import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.HeaderView;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
@@ -30,6 +29,7 @@ import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
 import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
 import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
+import exp.rusan.musicplayer.Util.SecondaryListAdapter;
 
 /**
  * Description:
@@ -75,12 +75,14 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
 
     ArtistDetailRvAdapter adapter;
 
-    List<DataTree<Album, Track>> dataTrees;
+    List<SecondaryListAdapter.DataTree<Album, Track>> dataTrees;
 
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         setContentView(R.layout.activity_artist_detail);
 
@@ -89,6 +91,8 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
         }
 
         ButterKnife.bind(this);
+
+
 
         int artistId = getIntent().getIntExtra(Constant.ARTIST_ID, 0);
 
@@ -194,8 +198,12 @@ public class ArtistDetailActivity extends AppCompatActivity implements AppBarLay
     }
 
     @Override
-    public void showDataTrees(List<DataTree<Album, Track>> pDataTrees) {
-        adapter.setDataTrees(pDataTrees);
+    public void showDataTrees(List<SecondaryListAdapter.DataTree<Album, Track>> pDataTrees) {
+        adapter.setAtDataTrees(pDataTrees);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

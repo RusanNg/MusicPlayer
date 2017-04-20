@@ -2,12 +2,12 @@ package exp.rusan.musicplayer.constract;
 
 import java.util.List;
 
-import exp.rusan.musicplayer.DataTree;
 import exp.rusan.musicplayer.IBasePresenter;
 import exp.rusan.musicplayer.IBaseView;
 import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.bean.Track;
+import exp.rusan.musicplayer.Util.SecondaryListAdapter;
 
 /**
  * Created by Rusan on 2017/3/27.
@@ -32,7 +32,7 @@ public class IArtistDetailConstract {
 
         void showArtist(Artist pArtist);
 
-        void showDataTrees(List<DataTree<Album, Track>> pDataTrees);
+        void showDataTrees(List<SecondaryListAdapter.DataTree<Album, Track>> pDataTrees);
     }
 
 }
