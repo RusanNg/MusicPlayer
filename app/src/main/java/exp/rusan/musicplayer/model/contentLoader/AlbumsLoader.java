@@ -100,10 +100,12 @@ public class AlbumsLoader {
                 String artUri = cursor.getString(artUriCol);
                 String artist = cursor.getString(artistCol);
 
-                TrackStore.getInstance().addAlbum(new Album.Builder(id, title).numTracks
+                albums.add(new Album.Builder(id, title).numTracks
                         (numTracks).artistTitle(artist).artUri(artUri).artistId(artistId).build());
 
             } while (cursor.moveToNext());
+
+            TrackStore.getInstance().setAlbums(albums);
 
         }
 
@@ -132,7 +134,7 @@ public class AlbumsLoader {
 
 //            Logger.i(TAG, "onChange: Albums data chenged!!!");
 
-            TrackStore.getInstance().emptyAlbums();
+//            TrackStore.getInstance().emptyAlbums();
             loader();
             listener.onChange();
         }

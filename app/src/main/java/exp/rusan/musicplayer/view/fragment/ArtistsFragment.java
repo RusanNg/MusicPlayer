@@ -42,6 +42,8 @@ public class ArtistsFragment extends Fragment implements IArtistsPageContract.IA
 
     private final static String TAG = "ArtistsPage";
 
+    public final static String TRANSITION_NAME = "art_artists_to_detail";
+
     private IArtistsPageContract.IArtistsPresenter presenter;
 
     private RecyclerView rvArtists;

@@ -106,19 +106,21 @@ public class TracksLoader {
                 String artist = cursor.getString(artistCol);
                 String album = cursor.getString(albumCol);
 
-                TrackStore.getInstance().addTrack(new Track.Builder(id, title).duration(duration)
+                tracks.add(new Track.Builder(id, title).duration(duration)
                         .dataUri(dataUri).artistTitle(artist).albumTitle(album).artistId(artistId)
                         .albumId(albumId).build());
 
             } while (cursor.moveToNext());
+
+            TrackStore.getInstance().setTracks(tracks);
+
         }
 
         cursor.close();
     }
 
-
     /**
-     * TrackCotentObserver to listen tracks data changes. The method onChange will be invoked
+     * TrackContentObserver to listen tracks data changes. The method onChange will be invoked
      * when data change.
      */
     private class TracksContentObserver extends ContentObserver{
@@ -136,7 +138,7 @@ public class TracksLoader {
 
 //            Log.i(TAG, "onChange: Music store have changed.");
 
-            TrackStore.getInstance().emptyTracks();
+//            TrackStore.getInstance().emptyTracks();
             loader();
             listener.onChange();
 

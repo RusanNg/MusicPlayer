@@ -76,13 +76,10 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
 
         GridLayoutManager gm = new GridLayoutManager(getContext(), 2);
 
-
         rvAlbums.setLayoutManager(new GridLayoutManager(getContext(), 2));
         rvAlbums.setAdapter(adapter);
         rvAlbums.setHasFixedSize(true);
         rvAlbums.addItemDecoration(new RvAlbumsDividerItemDecoration());
-
-
 
         return v;
     }
@@ -92,6 +89,12 @@ public class AlbumsFragment extends Fragment implements IAlbumsPageContract.IAbl
         public void onItemClick(int position, View v) {
             // TODO: 2017/2/14 album item click
             Log.i(TAG, "onItemClick: item clicked!!!");
+
+//            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fl_container,
+//                    AlbumDetailActivity.newInstance()).addToBackStack(null).commit();
+
+//            getFragmentManager().beginTransaction()
+
         }
     };
 

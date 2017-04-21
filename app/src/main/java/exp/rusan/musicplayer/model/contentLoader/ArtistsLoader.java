@@ -97,10 +97,13 @@ public class ArtistsLoader {
 
                 Album a = TrackStore.getInstance().getAlbumByArtistId(id);
 
-                TrackStore.getInstance().addArtist(new Artist.Builder(id, title).numTracks
+                artists.add(new Artist.Builder(id, title).numTracks
                         (numTracks).numAlbums(numAlbums).artUri(a.getArtUri()).build());
 
             } while (cursor.moveToNext());
+
+            TrackStore.getInstance().setArtists(artists);
+
         }
 
         cursor.close();
@@ -130,7 +133,7 @@ public class ArtistsLoader {
         public void onChange(boolean selfChange) {
             super.onChange(selfChange);
 
-            TrackStore.getInstance().emptyArtists();
+//            TrackStore.getInstance().emptyArtists();
             loader();
             listener.onChange();
 

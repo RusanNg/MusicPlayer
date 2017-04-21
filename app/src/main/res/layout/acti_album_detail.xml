@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="exp.rusan.musicplayer.view.activity.AlbumDetailActivity">
+
+    <FrameLayout
+        android:id="@+id/fl_album_detail_info"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        >
+
+
+        <ImageView
+            android:id="@+id/iv_album_detail_art"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_adjust_black_24dp"
+            />
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             >
+
+
+            <TextView
+                android:id="@+id/tv_album_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="album title"
+                android:textSize="24sp"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
+                android:maxLines="1"
+                android:ellipsize="middle"
+                android:layout_marginBottom="8dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_album_detail_artist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_album_detail_title"
+                android:text="Artiest 1 track"
+                android:textSize="18dp"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="16dp"
+                />
+
+             <Button
+                 android:id="@+id/btn_album_detail_play_all"
+                 style="@style/PlayAllBtnStyle"
+                 android:layout_marginBottom="8dp"
+                 android:layout_marginTop="8dp"
+                 android:layout_centerHorizontal="true"
+                 android:layout_below="@id/tv_album_detail_artist"
+                 />
+
+         </RelativeLayout>
+
+    </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_album_detail_tracks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/fl_album_detail_info"
+        android:scrollbars="vertical"
+        />
+
+</RelativeLayout>

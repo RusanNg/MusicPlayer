@@ -10,9 +10,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- <activity -->
+        <!-- android:name=".BaseActivity" -->
+        <!-- android:label="@string/title_activity_base" -->
+        <!-- android:theme="@style/AppTheme"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
+
         <!--<activity-->
-            <!--android:name=".BaseActivity"-->
-            <!--android:label="@string/title_activity_base"-->
+            <!--android:name=".view.activity.LibraryFragment"-->
+            <!--android:label="@string/title_activity_music_list"-->
             <!--android:theme="@style/AppTheme">-->
             <!--<intent-filter>-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
@@ -20,17 +32,7 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         <!--</activity>-->
-
-        <activity
-            android:name=".view.activity.TrackListActivity"
-            android:label="@string/title_activity_music_list"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!---->
 
         <activity
             android:name=".view.activity.ArtistDetailActivity"
@@ -38,7 +40,21 @@
 
         </activity>
 
+        <activity
+            android:name=".view.activity.MusicPlayerActivity"
+            android:label="@string/title_activity_music_player"
+            android:parentActivityName=".view.activity.BaseActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="exp.rusan.musicplayer.view.activity.BaseActivity" />
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
