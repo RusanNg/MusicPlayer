@@ -15,12 +15,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import exp.rusan.musicplayer.Constant;
 import exp.rusan.musicplayer.HeaderView;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
+import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
 
 /**
  * Description:
@@ -60,6 +63,8 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
     @BindView(R.id.iv_two_title_art)
     ImageView ivArt;
 
+    private RecyclerView.Adapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,8 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         hvToolbar.setTitle("Some Title", "Subtitle");
         hvCtb.setTitle("Some Title", "Subtitle");
 
+        setHeadView();
+
         abl.addOnOffsetChangedListener(this);
 
         if (getSupportActionBar() != null) {
@@ -91,11 +98,12 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         rvList.addItemDecoration(new RvTracksDividerItemDecoration(this, LinearLayoutManager
                 .VERTICAL));
 
+        adapter = adapter();
+
+        rvList.setAdapter(adapter);
+
     }
 
-    public void setListAdapter() {
-        rvList.setAdapter(adapter);
-    }
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -115,14 +123,29 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
             if (percentage >= 0.5) {
                 ivArt.setTransitionName(null);
             } else {
-                ivArt.setTransitionName(getTransitionName());
+                ivArt.setTransitionName(transitionName());
             }
         }
 
     }
-    protected abstract String getTransitionName();
 
+    protected abstract String transitionName();
 
+    protected abstract String title();
+
+    protected abstract String subTitle();
+
+    protected abstract String artUri();
+
+    protected abstract RecyclerView.Adapter adapter();
+
+    public RecyclerView.Adapter getAdapter() {
+        return adapter;
+    }
+
+    public void updateAdapterData(List datas) {
+        ((ArtistDetailRvAdapter)getAdapter()).setAtDataTrees(datas);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -142,17 +165,17 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
     }
 
 
-    public void setHeadView(String title, String subTitle, String artUri) {
+    public void setHeadView() {
 //        Logger.i("here!!!");
-        if (artUri != null && !artUri.isEmpty()) {
-            Glide.with(getApplicationContext()).load(artUri).into(ivArt);
+        if (artUri() != null && !artUri().isEmpty()) {
+            Glide.with(getApplicationContext()).load(artUri()).into(ivArt);
         }
 
-        hvCtb.setTitle(title);
-        hvCtb.setSubtitle(subTitle);
+        hvCtb.setTitle(title());
+        hvCtb.setSubtitle(subTitle());
 
-        hvToolbar.setTitle(title);
-        hvToolbar.setSubtitle(subTitle);
+        hvToolbar.setTitle(title());
+        hvToolbar.setSubtitle(subTitle());
 
     }
 

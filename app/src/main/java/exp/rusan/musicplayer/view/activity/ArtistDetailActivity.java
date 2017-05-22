@@ -12,6 +12,7 @@ import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
+import exp.rusan.musicplayer.model.TrackStore;
 import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
 import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
 import exp.rusan.musicplayer.view.fragment.ArtistsFragment;
@@ -30,59 +31,54 @@ import exp.rusan.musicplayer.view.fragment.ArtistsFragment;
 
 public class ArtistDetailActivity extends TwoTitleCollapsingToolbarActivity implements IArtistDetailConstract.IArtistDetailView {
 
-    private Artist artist = ;
+    private Artist artist;
 
     private IArtistDetailConstract.IArtistDetailPresenter presenter;
-
-    ArtistDetailRvAdapter adapter;
 
     List<SecondaryListAdapter.DataTree<Album, Track>> dataTrees;
 
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         int artistId = getIntent().getIntExtra(Constant.ARTIST_ID, 0);
+        artist = TrackStore.getInstance().getArtistById(artistId);
+
+        super.onCreate(savedInstanceState);
+
 
         presenter = new ArtistDetailPresenter(this);
 
         presenter.setArtistId(artistId);
 
-        adapter = new ArtistDetailRvAdapter(this);
-
     }
 
     @Override
-    public void setListAdapter(RecyclerView.Adapter adapter) {
-        super.setListAdapter(adapter);
+    protected String transitionName() {
+        return ArtistsFragment.TRANSITION_NAME;
     }
 
     @Override
-    public String getHeadViewTitle() {
+    protected String title() {
         return artist.getTitle();
     }
 
     @Override
-    public String getHeadViewSubTitle() {
+    protected String subTitle() {
         return Constant.numAlbumsToString(getApplication(), artist.getNumAlbums()
         ) + " - " + Constant.numTracksToString(getApplication(), artist.getNumTracks());
     }
 
     @Override
-    public String getArtUri() {
+    protected String artUri() {
         return artist.getArtUri();
     }
 
     @Override
-    public RecyclerView.Adapter getAdapter() {
-        return adapter;
+    protected RecyclerView.Adapter adapter() {
+        return new ArtistDetailRvAdapter(this);
     }
 
-    @Override
-    public String getTransitionName() {
-        return ArtistsFragment.TRANSITION_NAME;
-    }
 
     @Override
     protected void onResume() {
@@ -104,7 +100,7 @@ public class ArtistDetailActivity extends TwoTitleCollapsingToolbarActivity impl
 
     @Override
     public void showDataTrees(List<SecondaryListAdapter.DataTree<Album, Track>> pDataTrees) {
-        adapter.setAtDataTrees(pDataTrees);
+        updateAdapterData(pDataTrees);
     }
 
 
