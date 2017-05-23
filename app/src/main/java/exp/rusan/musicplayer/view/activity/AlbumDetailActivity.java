@@ -1,35 +1,21 @@
 package exp.rusan.musicplayer.view.activity;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import exp.rusan.musicplayer.Constant;
-import exp.rusan.musicplayer.HeaderView;
-import exp.rusan.musicplayer.R;
-import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
+import exp.rusan.musicplayer.OnItemClickListener;
 import exp.rusan.musicplayer.bean.Album;
-import exp.rusan.musicplayer.bean.Artist;
-import exp.rusan.musicplayer.bean.Track;
-import exp.rusan.musicplayer.constract.IArtistDetailConstract;
-import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
-import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
-import exp.rusan.musicplayer.Util.SecondaryListAdapter;
+import exp.rusan.musicplayer.constract.IAlbumDetailConstract;
+import exp.rusan.musicplayer.presenter.AlbumDetailPresenter;
+import exp.rusan.musicplayer.view.adapter.AlbumDetailRvAdapter;
+import exp.rusan.musicplayer.view.fragment.AlbumsFragment;
 
 /**
  * Description:
@@ -43,82 +29,56 @@ import exp.rusan.musicplayer.Util.SecondaryListAdapter;
  * -->
  */
 
-public class AlbumDetailActivity extends AppCompatActivity implements AppBarLayout
-        .OnOffsetChangedListener, IArtistDetailConstract.IArtistDetailView {
+public class AlbumDetailActivity extends TwoTitleCollapsingToolbarActivity implements IAlbumDetailConstract.IAlbumDetailView {
 
-    private boolean isHideToolbarView = false;
+    private Album album;
 
-    private Artist artist;
-
-    private IArtistDetailConstract.IArtistDetailPresenter presenter;
-
-    @BindView(R.id.abl_artist_detail)
-    AppBarLayout abl;
-
-    @BindView(R.id.ctl_artist_detail)
-    CollapsingToolbarLayout ctl;
-
-    @BindView(R.id.tb_artist_detail)
-    Toolbar tb;
-
-    @BindView(R.id.hv_artist_detail_toolbar)
-    HeaderView hvToolbar;
-
-    @BindView(R.id.hv_artist_detail_ctl)
-    HeaderView hvCtb;
-
-    @BindView(R.id.rv_artist_detail_list)
-    RecyclerView rvList;
-
-    @BindView(R.id.iv_artist_detail_artist_art)
-    ImageView ivArtistArt;
-
-    ArtistDetailRvAdapter adapter;
-
-    List<SecondaryListAdapter.DataTree<Album, Track>> dataTrees;
+    private IAlbumDetailConstract.IAlbumDetailPresenter presenter;
 
     @Override
-
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.acti_two_title_collapsing_toolbar);
+        int albumId = getIntent().getIntExtra(Constant.ALBUM_ID, 0);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Constant.setTranslucentStatus(this);
-        }
+        presenter = new AlbumDetailPresenter(this);
+        presenter.setAlbumId(albumId);
 
-        ButterKnife.bind(this);
+    }
 
+    @Override
+    protected String transitionName() {
+        return AlbumsFragment.TRANSITION_NAME;
+    }
 
+    @Override
+    protected String title() {
+        return album.getTitle();
+    }
 
-        int artistId = getIntent().getIntExtra(Constant.ARTIST_ID, 0);
+    @Override
+    protected String subTitle() {
+        return album.getArtistTitle() + " - " + Constant.numTracksToString(getApplication(), album
+                .getNumTracks());
+    }
 
-        presenter = new ArtistDetailPresenter(this);
+    @Override
+    protected String artUri() {
+        return album.getArtUri();
+    }
 
-        presenter.setArtistId(artistId);
+    @Override
+    protected RecyclerView.Adapter adapter() {
+        return new AlbumDetailRvAdapter(onItemClickListener);
+    }
 
-        setSupportActionBar(tb);
+    @Override
+    public void updateAdapterData(List datas) {
+        ((AlbumDetailRvAdapter)getAdapter()).setTracks(datas);
+    }
 
-        ctl.setTitle(" ");
-
-        hvToolbar.setTitle("Some Title", "Subtitle");
-        hvCtb.setTitle("Some Title", "Subtitle");
-
-        abl.addOnOffsetChangedListener(this);
-
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
-        rvList.setLayoutManager(new LinearLayoutManager(this));
-
-        rvList.setHasFixedSize(true);
-        rvList.addItemDecoration(new RvTracksDividerItemDecoration(this, LinearLayoutManager
-                .VERTICAL));
-
-        adapter = new ArtistDetailRvAdapter(this);
-        rvList.setAdapter(adapter);
+    @Override
+    protected void btnPlayAllOnClick(View view) {
 
     }
 
@@ -126,82 +86,29 @@ public class AlbumDetailActivity extends AppCompatActivity implements AppBarLayo
     protected void onResume() {
         super.onResume();
         presenter.start();
-
-    }
-
-    @Override
-    public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-
-        int maxScroll = appBarLayout.getTotalScrollRange();
-        float percentage = (float) Math.abs(verticalOffset) / (float) maxScroll;
-
-        if (percentage == 1f && isHideToolbarView) {
-            hvToolbar.setVisibility(View.VISIBLE);
-            isHideToolbarView = !isHideToolbarView;
-        } else if (percentage < 1f && !isHideToolbarView) {
-            hvToolbar.setVisibility(View.GONE);
-            isHideToolbarView = !isHideToolbarView;
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (percentage >= 0.5) {
-                ivArtistArt.setTransitionName(null);
-            } else {
-                ivArtistArt.setTransitionName("art_artists_to_detail");
-            }
-        }
-
+        setHeadView();
     }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case android.R.id.home:
-                onBackPressed();
-                break;
-
-            default:
-                break;
-
-        }
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void setPresenter(IArtistDetailConstract.IArtistDetailPresenter pPresenter) {
+    public void setPresenter(IAlbumDetailConstract.IAlbumDetailPresenter pPresenter) {
         this.presenter = pPresenter;
-
     }
 
     @Override
-    public void showArtist(Artist pArtist) {
-//        Logger.i("here!!!");
-        if (pArtist.getArtUri() != null) {
-            Glide.with(getApplicationContext()).load(pArtist.getArtUri()).into(ivArtistArt);
+    public void showAlbum(Album pAlbum) {
+        this.album = pAlbum;
+    }
+
+    @Override
+    public void showTracks(List pTracks) {
+        updateAdapterData(pTracks);
+    }
+
+    OnItemClickListener onItemClickListener = new OnItemClickListener() {
+        @Override
+        public void onItemClick(int position, View v) {
+            Logger.i("Click.");
         }
-
-        hvCtb.setTitle(pArtist.getTitle());
-        hvCtb.setSubtitle(Constant.numAlbumsToString(getApplication(), pArtist.getNumAlbums()
-        ) + " - " + Constant.numTracksToString(getApplication(), pArtist.getNumTracks()));
-
-        hvToolbar.setTitle(pArtist.getTitle());
-        hvToolbar.setSubtitle(Constant.numAlbumsToString(getApplication(), pArtist.getNumAlbums()
-        ) + " - " + Constant.numTracksToString(getApplication(), pArtist.getNumTracks()));
-
-    }
-
-    @Override
-    public void showDataTrees(List<SecondaryListAdapter.DataTree<Album, Track>> pDataTrees) {
-        adapter.setAtDataTrees(pDataTrees);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
+    };
 }

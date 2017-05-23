@@ -11,6 +11,8 @@
         android:textColor="@color/colorWhite"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
         android:text="title"
+        android:maxLines="1"
+        android:ellipsize="end"
         />
 
     <TextView
@@ -20,6 +22,8 @@
         android:textColor="@color/colorWhite"
         android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle"
         android:text="subTitle"
+        android:maxLines="1"
+        android:ellipsize="end"
         />
 
 </exp.rusan.musicplayer.HeaderView>

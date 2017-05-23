@@ -3,6 +3,9 @@ package exp.rusan.musicplayer.view.activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -12,7 +15,6 @@ import exp.rusan.musicplayer.bean.Album;
 import exp.rusan.musicplayer.bean.Artist;
 import exp.rusan.musicplayer.bean.Track;
 import exp.rusan.musicplayer.constract.IArtistDetailConstract;
-import exp.rusan.musicplayer.model.TrackStore;
 import exp.rusan.musicplayer.presenter.ArtistDetailPresenter;
 import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
 import exp.rusan.musicplayer.view.fragment.ArtistsFragment;
@@ -40,15 +42,10 @@ public class ArtistDetailActivity extends TwoTitleCollapsingToolbarActivity impl
     @Override
 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
-        int artistId = getIntent().getIntExtra(Constant.ARTIST_ID, 0);
-        artist = TrackStore.getInstance().getArtistById(artistId);
-
         super.onCreate(savedInstanceState);
 
-
+        int artistId = getIntent().getIntExtra(Constant.ARTIST_ID, 0);
         presenter = new ArtistDetailPresenter(this);
-
         presenter.setArtistId(artistId);
 
     }
@@ -79,11 +76,22 @@ public class ArtistDetailActivity extends TwoTitleCollapsingToolbarActivity impl
         return new ArtistDetailRvAdapter(this);
     }
 
+    @Override
+    public void updateAdapterData(List datas) {
+        ((ArtistDetailRvAdapter)getAdapter()).setAtDataTrees(datas);
+    }
+
+    @Override
+    protected void btnPlayAllOnClick(View view) {
+        Logger.i("btn play all on click clicked");
+    }
+
 
     @Override
     protected void onResume() {
         super.onResume();
         presenter.start();
+        setHeadView();
 
     }
 

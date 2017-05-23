@@ -7,6 +7,9 @@ import android.support.annotation.RequiresApi;
 import android.view.Window;
 import android.view.WindowManager;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Rusan on 2017/3/27.
  */
@@ -14,6 +17,7 @@ import android.view.WindowManager;
 public class Constant {
 
     public static final String ARTIST_ID = "artist_id";
+    public static final String ALBUM_ID = "album_id";
 
     public static String numAlbumsToString(Application app, int num){
 
@@ -39,6 +43,20 @@ public class Constant {
         }
 
         return str;
+    }
+
+    public static String durationToString(int duration) {
+
+        if (duration >= 72000000) {
+
+            return new SimpleDateFormat("hh:mm:ss").format(new Date(duration));
+
+        } else {
+
+           return new SimpleDateFormat("mm:ss").format(new Date(duration));
+
+        }
+
     }
 
     private static boolean isSingular(int num) {

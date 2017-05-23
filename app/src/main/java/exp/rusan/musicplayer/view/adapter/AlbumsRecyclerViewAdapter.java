@@ -48,6 +48,10 @@ public class AlbumsRecyclerViewAdapter extends RecyclerView.Adapter<AlbumsRecycl
         notifyDataSetChanged();
     }
 
+    public Album getAlbumByPosition(int position) {
+        return albums.get(position);
+    }
+
     @Override
     public AlbumViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 

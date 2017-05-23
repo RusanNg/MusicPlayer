@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -19,11 +20,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import exp.rusan.musicplayer.Constant;
 import exp.rusan.musicplayer.HeaderView;
 import exp.rusan.musicplayer.R;
 import exp.rusan.musicplayer.RvTracksDividerItemDecoration;
-import exp.rusan.musicplayer.view.adapter.ArtistDetailRvAdapter;
 
 /**
  * Description:
@@ -63,6 +64,9 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
     @BindView(R.id.iv_two_title_art)
     ImageView ivArt;
 
+    @BindView(R.id.btn_two_title_play_all)
+    Button btnPlayAll;
+
     private RecyclerView.Adapter adapter;
 
     @Override
@@ -84,7 +88,6 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         hvToolbar.setTitle("Some Title", "Subtitle");
         hvCtb.setTitle("Some Title", "Subtitle");
 
-        setHeadView();
 
         abl.addOnOffsetChangedListener(this);
 
@@ -95,10 +98,11 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         rvList.setLayoutManager(new LinearLayoutManager(this));
 
         rvList.setHasFixedSize(true);
+
         rvList.addItemDecoration(new RvTracksDividerItemDecoration(this, LinearLayoutManager
                 .VERTICAL));
 
-        adapter = adapter();
+        this.adapter = adapter();
 
         rvList.setAdapter(adapter);
 
@@ -143,9 +147,8 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         return adapter;
     }
 
-    public void updateAdapterData(List datas) {
-        ((ArtistDetailRvAdapter)getAdapter()).setAtDataTrees(datas);
-    }
+    public abstract void updateAdapterData(List datas);
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -177,8 +180,10 @@ public abstract class TwoTitleCollapsingToolbarActivity extends AppCompatActivit
         hvToolbar.setTitle(title());
         hvToolbar.setSubtitle(subTitle());
 
+
     }
 
-
+    @OnClick(R.id.btn_two_title_play_all)
+    protected abstract void btnPlayAllOnClick(View view);
 
 }

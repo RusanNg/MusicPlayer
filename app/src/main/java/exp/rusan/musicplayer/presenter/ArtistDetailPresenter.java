@@ -63,7 +63,6 @@ public class ArtistDetailPresenter implements IArtistDetailConstract.IArtistDeta
             @Override
             public void onDataLoaded(Object pData) {
 
-
                 albums.clear();
                 albums.addAll((List)pData);
             }

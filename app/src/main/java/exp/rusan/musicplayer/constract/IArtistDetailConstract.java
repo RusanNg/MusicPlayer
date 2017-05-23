@@ -13,7 +13,7 @@ import exp.rusan.musicplayer.Util.SecondaryListAdapter;
  * Created by Rusan on 2017/3/27.
  */
 
-public class IArtistDetailConstract {
+public interface IArtistDetailConstract {
 
     public interface IArtistDetailPresenter extends IBasePresenter{
 
